@@ -30,7 +30,7 @@ var scenes;
             this.addChild(this._gameButton);
             this._gameButton.on("click", this._startButtonClick, this);
             //Instructions button
-            this._instructionButton = new objects.Button("instructions", config.Screen.CENTER_X + 250, config.Screen.CENTER_Y + 100);
+            this._instructionButton = new objects.Button("instructions", config.Screen.CENTER_X + 250, config.Screen.CENTER_Y + 125);
             this.addChild(this._instructionButton);
             this._instructionButton.on("click", this._instructionButtonClick, this);
             // Add menu scene to global stage container
