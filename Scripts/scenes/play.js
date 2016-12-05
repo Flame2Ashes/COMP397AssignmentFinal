@@ -9,6 +9,7 @@ var scenes;
         __extends(Play, _super);
         function Play() {
             _super.call(this);
+            this._hasKey = false;
             this._scrollTrigger = 350;
         }
         Play.prototype.start = function () {
@@ -18,6 +19,7 @@ var scenes;
             this._player = new objects.Player("idle side");
             this._player.regX = this._player.width * 0.5;
             this._dirtblock = new objects.Tile("dirtblock");
+            this._dirtblock.regX = this._dirtblock.width * 0.5;
             //Create labels
             this._lifeLabel = new objects.Label("Life: " + life, "40px Arial", "#ffffff", config.Screen.CENTER_X - 300, 50);
             //Create the level
@@ -57,13 +59,15 @@ var scenes;
             if (controls.DOWN) {
                 this._player.moveDown();
             }
-            else if (!controls.LEFT && !controls.RIGHT && !controls.UP && !controls.DOWN) {
-                this._player.idle();
+            if (controls.DIG) {
+                this._player.dig();
+                if (this.checkCollision(this._player, this._dirtblock)) {
+                    this._scrollableObjContainer.removeChild(this._dirtblock);
+                    console.log("Hit dirtblock");
+                }
             }
             if (this.checkCollision(this._player, this._dirtblock)) {
                 console.log("Hit dirtblock");
-                this._player.position.x += 0;
-                this._player.position.y += 0;
             }
             this._player.update();
             if (this.checkScroll()) {

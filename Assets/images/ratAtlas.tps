@@ -469,6 +469,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../../Downloads/ASU_17/key.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,5,13,10</rect>
+                <key>scale9Paddings</key>
+                <rect>6,5,13,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -504,6 +517,7 @@
             <filename>../../../../Downloads/ASU_17/2.png</filename>
             <filename>../../../../Downloads/ASU_17/3.png</filename>
             <filename>dirtBlock.png</filename>
+            <filename>../../../../Downloads/ASU_17/key.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

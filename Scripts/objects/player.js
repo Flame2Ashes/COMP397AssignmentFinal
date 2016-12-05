@@ -30,7 +30,6 @@ var objects;
         Player.prototype.update = function () {
             _super.prototype.update.call(this);
         };
-        //TODO
         Player.prototype.moveLeft = function () {
             if (!this._isMoving) {
                 this._isMoving = true;
@@ -39,19 +38,15 @@ var objects;
             this._isFacingUp = false;
             this._isFacingDown = false;
             this._isFacingRight = false;
-            if (!this._isFacingLeft) {
+            if (!this._isFacingLeft || this._isDigging) {
                 this.scaleX = -1;
-                this.gotoAndPlay("walk side");
                 this._isFacingLeft = true;
+                this._isDigging = false;
+                this.gotoAndPlay("walk side");
             }
             this._previousPositionX = this.position.x;
             this.position.x -= 1;
-            /*  if (controls.DIG) {
-                  this.dig();
-              }
-             */
         };
-        //TODO
         Player.prototype.moveRight = function () {
             if (!this._isMoving) {
                 this._isMoving = true;
@@ -60,11 +55,11 @@ var objects;
             this._isFacingUp = false;
             this._isFacingDown = false;
             this._isFacingLeft = false;
-            if (!this._isFacingRight) {
+            if (!this._isFacingRight || this._isDigging) {
                 this.scaleX = 1;
-                this.gotoAndPlay("walk side");
                 this._isFacingRight = true;
-                console.log("Look, Im moving right!");
+                this._isDigging = false;
+                this.gotoAndPlay("walk side");
             }
             this._previousPositionX = this.position.x;
             this.position.x += 1;
@@ -78,9 +73,10 @@ var objects;
             this._isFacingDown = false;
             this._isFacingLeft = false;
             this._isFacingRight = false;
-            if (!this._isFacingUp) {
-                this.gotoAndPlay("walk back");
+            if (!this._isFacingUp || this._isDigging) {
                 this._isFacingUp = true;
+                this._isDigging = false;
+                this.gotoAndPlay("walk back");
             }
             this._previousPositionY = this.position.y;
             this.position.y -= 1;
@@ -94,33 +90,49 @@ var objects;
             this._isFacingUp = false;
             this._isFacingLeft = false;
             this._isFacingRight = false;
-            if (!this._isFacingDown) {
-                this.gotoAndPlay("walk front");
+            if (!this._isFacingDown || this._isDigging) {
                 this._isFacingDown = true;
+                this._isDigging = false;
+                this.gotoAndPlay("walk front");
             }
             this._previousPositionY = this.position.y;
             this.position.y += 1;
         };
         Player.prototype.idle = function () {
+            if (!this._isIdle) {
+                this._isIdle = true;
+                this._isMoving = false;
+            }
             if (this._isFacingUp) {
                 this.gotoAndPlay("idle back");
-                this._isMoving = false;
             }
             if (this._isFacingDown) {
                 this.gotoAndPlay("idle front");
-                this._isMoving = false;
             }
             if (this._isFacingLeft) {
                 this.scaleX = -1;
                 this.gotoAndPlay("idle side");
-                this._isMoving = false;
             }
             if (this._isFacingRight) {
                 this.scaleX = 1;
                 this.gotoAndPlay("idle side");
-                this._isMoving = false;
             }
-            this._isIdle = true;
+        };
+        Player.prototype.dig = function () {
+            this._isMoving = false;
+            this._isIdle = false;
+            if (this._isFacingUp) {
+                this.gotoAndPlay("slash back");
+                this._isDigging = true;
+            }
+            if (this._isFacingDown) {
+                this.gotoAndPlay("slash front");
+                this._isDigging = true;
+            }
+            if (this._isFacingLeft || this._isFacingRight) {
+                this.gotoAndPlay("slash side");
+                this._isDigging = true;
+            }
         };
         return Player;
     }(objects.GameObject));

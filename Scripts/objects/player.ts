@@ -1,42 +1,40 @@
 module objects {
     export class Player extends objects.GameObject {
 
-        private _maxSpeedX : number = 2;
-        private _velocity : objects.Vector2;
-        private _accelerationX : number;
-        private _friction : number = -1;
-        private _previousPositionX : number;
-        private _previousPositionY : number;
+        private _maxSpeedX: number = 2;
+        private _velocity: objects.Vector2;
+        private _accelerationX: number;
+        private _friction: number = -1;
+        private _previousPositionX: number;
+        private _previousPositionY: number;
 
-        private _isDead : boolean = false;
-        private _isDigging : boolean = false;
-        private _isIdle : boolean = false;
+        private _isDead: boolean = false;
+        private _isDigging: boolean = false;
+        private _isIdle: boolean = false;
         private _isMoving = false;
-        private _isFacingUp : boolean = false;
-        private _isFacingDown : boolean = false;
-        private _isFacingLeft : boolean = false;
-        private _isFacingRight : boolean = false;
-        
-        public isColliding : boolean = false;
+        private _isFacingUp: boolean = false;
+        private _isFacingDown: boolean = false;
+        private _isFacingLeft: boolean = false;
+        private _isFacingRight: boolean = false;
 
-        constructor(imgString : string) {
+        public isColliding: boolean = false;
+
+        constructor(imgString: string) {
             super(imgString);
             this.start();
         }
 
-        public start() : void {
-            this._velocity = new objects.Vector2(0,0);
+        public start(): void {
+            this._velocity = new objects.Vector2(0, 0);
             this.position = new objects.Vector2(150, 0);
             this._accelerationX = 0;
         }
 
-        public update() : void {
+        public update(): void {
 
-
-             super.update();
+            super.update();
         }
-        //TODO
-        public moveLeft() : void {
+        public moveLeft(): void {
             if (!this._isMoving) {
                 this._isMoving = true;
                 this._isIdle = false;
@@ -44,20 +42,17 @@ module objects {
             this._isFacingUp = false;
             this._isFacingDown = false;
             this._isFacingRight = false;
-            if (!this._isFacingLeft) {
+            if (!this._isFacingLeft || this._isDigging) {
                 this.scaleX = -1;
-                 this.gotoAndPlay("walk side");
                 this._isFacingLeft = true;
+                this._isDigging = false;
+                this.gotoAndPlay("walk side");
+                
             }
-                this._previousPositionX = this.position.x;
+            this._previousPositionX = this.position.x;
             this.position.x -= 1;
-          /*  if (controls.DIG) {
-                this.dig();
-            }
-           */
         }
-        //TODO
-        public moveRight() : void {
+        public moveRight(): void {
             if (!this._isMoving) {
                 this._isMoving = true;
                 this._isIdle = false;
@@ -65,36 +60,38 @@ module objects {
             this._isFacingUp = false;
             this._isFacingDown = false;
             this._isFacingLeft = false;
-            if (!this._isFacingRight) {
+            if (!this._isFacingRight || this._isDigging) {
                 this.scaleX = 1;
-                this.gotoAndPlay("walk side");
                 this._isFacingRight = true;
-                console.log("Look, Im moving right!");
+                this._isDigging = false;     
+                this.gotoAndPlay("walk side");
             }
             this._previousPositionX = this.position.x;
             this.position.x += 1;
-           
+
         }
 
         //Works
-        public moveUp() : void {
+        public moveUp(): void {
             if (!this._isMoving) {
                 this._isMoving = true;
                 this._isIdle = false;
+                
             }
             this._isFacingDown = false;
             this._isFacingLeft = false;
             this._isFacingRight = false;
-            if (!this._isFacingUp) {
-                this.gotoAndPlay("walk back");
+            if (!this._isFacingUp || this._isDigging) {
                 this._isFacingUp = true;
+                this._isDigging = false;
+                this.gotoAndPlay("walk back");
             }
             this._previousPositionY = this.position.y;
             this.position.y -= 1;
         }
 
         //Works
-        public moveDown() : void {
+        public moveDown(): void {
             if (!this._isMoving) {
                 this._isMoving = true;
                 this._isIdle = false;
@@ -102,35 +99,55 @@ module objects {
             this._isFacingUp = false;
             this._isFacingLeft = false;
             this._isFacingRight = false;
-                if(!this._isFacingDown) {
-                    this.gotoAndPlay("walk front");
-                    this._isFacingDown = true;
-                }
+            if (!this._isFacingDown || this._isDigging) {
+                
+                this._isFacingDown = true;
+                this._isDigging = false;
+                this.gotoAndPlay("walk front");
+            }
             this._previousPositionY = this.position.y;
             this.position.y += 1;
-           
+
         }
 
-        public idle() : void {  
+        public idle(): void {
+            if (!this._isIdle) {
+                this._isIdle = true;
+                this._isMoving = false;
+            }
             if (this._isFacingUp) {
                 this.gotoAndPlay("idle back");
-                this._isMoving = false;
+                
             }
             if (this._isFacingDown) {
                 this.gotoAndPlay("idle front");
-                this._isMoving = false;
             }
             if (this._isFacingLeft) {
                 this.scaleX = -1;
                 this.gotoAndPlay("idle side");
-                this._isMoving = false;
             }
             if (this._isFacingRight) {
                 this.scaleX = 1;
                 this.gotoAndPlay("idle side");
-                this._isMoving = false;
             }
-            this._isIdle = true;
+        }
+
+        public dig(): void {
+            this._isMoving = false;
+            this._isIdle = false;
+            if (this._isFacingUp) {
+                this.gotoAndPlay("slash back");
+                this._isDigging = true;              
+            }
+            if (this._isFacingDown) {
+                this.gotoAndPlay("slash front");
+                this._isDigging = true;
+            }
+            if (this._isFacingLeft || this._isFacingRight) {
+                this.gotoAndPlay("slash side");
+                this._isDigging = true;
+                
+            }
         }
     }
 }
