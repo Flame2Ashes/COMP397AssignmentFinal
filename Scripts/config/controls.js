@@ -4,6 +4,6 @@ var controls;
     controls.DOWN = false;
     controls.RIGHT = false;
     controls.LEFT = false;
-    controls.JUMP = false;
+    controls.DIG = false;
 })(controls || (controls = {}));
 //# sourceMappingURL=controls.js.map

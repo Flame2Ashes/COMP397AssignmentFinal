@@ -26,11 +26,11 @@ var scenes;
             this.addChild(this._menuBG);
             // Add button to scene. Register for click callback function
             //Start button
-            this._gameButton = new objects.Button("start", config.Screen.CENTER_X - 350, config.Screen.CENTER_Y + 125);
+            this._gameButton = new objects.Button("start", config.Screen.CENTER_X - 100, config.Screen.CENTER_Y + 100);
             this.addChild(this._gameButton);
             this._gameButton.on("click", this._startButtonClick, this);
             //Instructions button
-            this._instructionButton = new objects.Button("instructions", config.Screen.CENTER_X + 250, config.Screen.CENTER_Y + 125);
+            this._instructionButton = new objects.Button("instructions", config.Screen.CENTER_X + 200, config.Screen.CENTER_Y + 100);
             this.addChild(this._instructionButton);
             this._instructionButton.on("click", this._instructionButtonClick, this);
             // Add menu scene to global stage container

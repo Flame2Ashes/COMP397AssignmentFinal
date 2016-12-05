@@ -12,18 +12,29 @@ var scenes;
             this._scrollTrigger = 350;
         }
         Play.prototype.start = function () {
-            this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
-            this._ground = new createjs.Bitmap(assets.getResult("floor"));
+            //    this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
+            //    this._ground = new createjs.Bitmap(assets.getResult("floor"));
             this._scrollableObjContainer = new createjs.Container();
-            this._player = new objects.Player("idle");
-            this._player.regX = 75;
-            this._ground.y = 663;
+            this._player = new objects.Player("idle side");
+            this._player.regX = this._player.width * 0.5;
+            this._dirtblock = new objects.Tile("dirtblock");
             //Create labels
             this._lifeLabel = new objects.Label("Life: " + life, "40px Arial", "#ffffff", config.Screen.CENTER_X - 300, 50);
+            //Create the level
+            this.levelArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             //Scrollable Container. Make the thing scroll
-            this._scrollableObjContainer.addChild(this._bg);
+            //     this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
-            this._scrollableObjContainer.addChild(this._ground);
+            //      this._scrollableObjContainer.addChild(this._ground);
+            this._scrollableObjContainer.addChild(this._dirtblock);
             this.addChild(this._scrollableObjContainer);
             //Add labels last
             this.addChild(this._lifeLabel);
@@ -40,14 +51,20 @@ var scenes;
             if (controls.RIGHT) {
                 this._player.moveRight();
             }
-            if (controls.JUMP) {
-                this._player.jump();
+            if (controls.UP) {
+                this._player.moveUp();
             }
-            if (!controls.RIGHT && !controls.LEFT) {
-                this._player.resetAcceleration();
+            if (controls.DOWN) {
+                this._player.moveDown();
             }
-            if (!this._player.getIsGrounded())
-                this._checkPlayerWithFloor();
+            else if (!controls.LEFT && !controls.RIGHT && !controls.UP && !controls.DOWN) {
+                this._player.idle();
+            }
+            if (this.checkCollision(this._player, this._dirtblock)) {
+                console.log("Hit dirtblock");
+                this._player.position.x += 0;
+                this._player.position.y += 0;
+            }
             this._player.update();
             if (this.checkScroll()) {
                 this._scrollBGForward(this._player.position.x);
@@ -72,8 +89,8 @@ var scenes;
                     controls.RIGHT = true;
                     break;
                 case keys.SPACE:
-                    controls.JUMP = true;
-                    break;
+                    console.log("Space key pressed");
+                    controls.DIG = true;
             }
         };
         Play.prototype._onKeyUp = function (event) {
@@ -91,20 +108,12 @@ var scenes;
                     controls.RIGHT = false;
                     break;
                 case keys.SPACE:
-                    controls.JUMP = false;
-                    break;
+                    controls.DIG = false;
             }
         };
         Play.prototype._scrollBGForward = function (speed) {
             if (this._scrollableObjContainer.regX < config.Screen.WIDTH - 1200)
                 this._scrollableObjContainer.regX = speed - 300;
-        };
-        Play.prototype._checkPlayerWithFloor = function () {
-            if (this._player.y + this._player.getBounds().height > this._ground.y) {
-                console.log("HIT GROUND");
-                this._player.position.y = this._ground.y - this._player.getBounds().height - 20;
-                this._player.setIsGrounded(true);
-            }
         };
         Play.prototype.checkScroll = function () {
             if (this._player.x >= this._scrollTrigger) {

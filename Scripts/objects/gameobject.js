@@ -8,7 +8,7 @@ var objects;
     var GameObject = (function (_super) {
         __extends(GameObject, _super);
         function GameObject(imageString) {
-            _super.call(this, snailAtlas, imageString);
+            _super.call(this, ratAtlas, imageString);
             this._initialize(imageString);
             this.start();
         }

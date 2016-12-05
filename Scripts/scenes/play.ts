@@ -5,11 +5,16 @@ module scenes {
 
         private _ground : createjs.Bitmap;
         private _player : objects.Player;
+        private _dirtblock : objects.Tile;
 
         private _lifeLabel : objects.Label;
         private _timeLabel : objects.Label;
 
         //Arrays for objects
+        private levelArray : number[];
+
+        private _w : number;
+        private _h : number;
 
         private _scrollableObjContainer : createjs.Container;
 
@@ -20,24 +25,37 @@ module scenes {
         }
 
         public start() : void {
-            this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
-            this._ground = new createjs.Bitmap(assets.getResult("floor"));
+        //    this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
+        //    this._ground = new createjs.Bitmap(assets.getResult("floor"));
             this._scrollableObjContainer = new createjs.Container();
-            this._player = new objects.Player("idle");
-            this._player.regX = 75;
-            this._ground.y = 663;
+            this._player = new objects.Player("idle side");
+            this._player.regX = this._player.width * 0.5;
+            this._dirtblock = new objects.Tile("dirtblock");
 
             //Create labels
              this._lifeLabel = new objects.Label("Life: " + life, "40px Arial", "#ffffff", config.Screen.CENTER_X - 300, 50);
 
-        
+             //Create the level
 
+             this.levelArray = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]    
+                               ;
+            
+           
           
             //Scrollable Container. Make the thing scroll
 
-            this._scrollableObjContainer.addChild(this._bg);
+       //     this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
-            this._scrollableObjContainer.addChild(this._ground);
+      //      this._scrollableObjContainer.addChild(this._ground);
+            this._scrollableObjContainer.addChild(this._dirtblock);
 
 
 
@@ -64,26 +82,22 @@ module scenes {
             if(controls.RIGHT) { 
                 this._player.moveRight();
             } 
-            if(controls.JUMP) {
-                this._player.jump();
+
+            if (controls.UP) {
+                this._player.moveUp();
             }
-
-            if(!controls.RIGHT && !controls.LEFT)
-            {
-                this._player.resetAcceleration();
-                
+            if (controls.DOWN) {
+                this._player.moveDown();
             }
-
-
-            if(!this._player.getIsGrounded())
-                this._checkPlayerWithFloor();
-                
-
-              
-
+            
+            else if (!controls.LEFT && !controls.RIGHT && !controls.UP && !controls.DOWN) {
+                this._player.idle();
+            }
                
 
-         
+         if (this.checkCollision(this._player, this._dirtblock)) {
+             console.log("Hit dirtblock");
+         }
 
             this._player.update();
 
@@ -113,14 +127,14 @@ module scenes {
                     controls.RIGHT = true;
                     break;
                 case keys.SPACE:
-                    controls.JUMP = true;
-                    break;
+                    console.log("Space key pressed");
+                    controls.DIG = true;
             }
         }
 
         private _onKeyUp(event : KeyboardEvent) : void {
             switch(event.keyCode) {
-                case keys.W:
+                case keys.W:               
                     controls.UP = false;
                     break;
                 case keys.S:
@@ -133,8 +147,7 @@ module scenes {
                     controls.RIGHT = false;
                     break;
                 case keys.SPACE:
-                    controls.JUMP = false;
-                    break;
+                    controls.DIG = false;
             }
         }
 
@@ -142,19 +155,6 @@ module scenes {
             if(this._scrollableObjContainer.regX < config.Screen.WIDTH - 1200)
                 this._scrollableObjContainer.regX = speed - 300;
         }
-
-        private _checkPlayerWithFloor() : void {
-            if(this._player.y+ this._player.getBounds().height > this._ground.y) {
-                console.log("HIT GROUND");
-                this._player.position.y = this._ground.y - this._player.getBounds().height - 20;
-                this._player.setIsGrounded(true);
-            }
-        }
-
-      
-      
-        
-
 
         private checkScroll() : boolean {
             if(this._player.x >= this._scrollTrigger) {

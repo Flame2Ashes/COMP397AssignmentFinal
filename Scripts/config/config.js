@@ -17,10 +17,10 @@ var config;
     var Screen = (function () {
         function Screen() {
         }
-        Screen.WIDTH = 4500;
-        Screen.HEIGHT = 700;
-        Screen.CENTER_X = 500;
-        Screen.CENTER_Y = 350;
+        Screen.WIDTH = 450;
+        Screen.HEIGHT = 450;
+        Screen.CENTER_X = 225;
+        Screen.CENTER_Y = 225;
         return Screen;
     }());
     config.Screen = Screen;
@@ -31,5 +31,13 @@ var config;
         return Game;
     }());
     config.Game = Game;
+    var TileSize = (function () {
+        function TileSize() {
+        }
+        TileSize.TILE_WIDTH = 45;
+        TileSize.TILE_HEIGHT = 45;
+        return TileSize;
+    }());
+    config.TileSize = TileSize;
 })(config || (config = {}));
 //# sourceMappingURL=config.js.map

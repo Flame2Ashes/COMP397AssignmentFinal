@@ -39,7 +39,7 @@ module objects {
         }
 
         constructor(imageString : string) {
-            super(snailAtlas, imageString);
+            super(ratAtlas, imageString);
 
             this._initialize(imageString);
             this.start();

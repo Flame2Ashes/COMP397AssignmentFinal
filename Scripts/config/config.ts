@@ -11,13 +11,18 @@ module config {
     }
 
     export class Screen {
-        public static WIDTH : number = 4500;
-        public static HEIGHT : number = 700;
-        public static CENTER_X : number = 500;
-        public static CENTER_Y : number = 350;
+        public static WIDTH : number = 450;
+        public static HEIGHT : number = 450;
+        public static CENTER_X : number = 225;
+        public static CENTER_Y : number = 225;
     }
     
     export class Game {
         public static FPS : number = 60;
+    }
+
+    export class TileSize {
+        public static TILE_WIDTH : number = 45;
+        public static TILE_HEIGHT : number = 45;
     }
 }

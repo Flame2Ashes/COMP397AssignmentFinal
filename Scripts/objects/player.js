@@ -9,14 +9,16 @@ var objects;
         __extends(Player, _super);
         function Player(imgString) {
             _super.call(this, imgString);
-            this._gravity = 0.5;
-            this._maxSpeedX = 5;
-            this._jumpSpeed = 0.1;
+            this._maxSpeedX = 2;
             this._friction = -1;
             this._isDead = false;
-            this._isGrounded = false;
-            this._isJumping = false;
-            this._isOnLeaf = false;
+            this._isDigging = false;
+            this._isIdle = false;
+            this._isMoving = false;
+            this._isFacingUp = false;
+            this._isFacingDown = false;
+            this._isFacingLeft = false;
+            this._isFacingRight = false;
             this.isColliding = false;
             this.start();
         }
@@ -26,87 +28,99 @@ var objects;
             this._accelerationX = 0;
         };
         Player.prototype.update = function () {
-            // Acceleration \
-            // Velocity
-            this._velocity.x += this._accelerationX;
-            this._velocity.y += this._gravity;
-            // Position
-            this.position.x += this._velocity.x;
-            this.position.y += this._velocity.y;
-            if (this._isGrounded) {
-                this._friction = 0.75;
-                this._velocity.y = 0;
-                this._gravity = 0;
-            }
-            else {
-                this._gravity = 0.5;
-            }
-            if (this._isOnLeaf) {
-                this._friction = 0.75;
-                this._velocity.y = 0;
-                this._gravity = 0;
-            }
-            if (this._velocity.x > 0) {
-                this.gotoAndPlay("moving");
-                this.scaleX = 1;
-            }
-            else if (this._velocity.x < 0) {
-                this.gotoAndPlay("moving");
-                this.scaleX = -1;
-            }
-            else {
-                this.gotoAndPlay("idle");
-            }
-            // AccelerationX affects Velocity.x
-            // Gravity affects Velocity.y
-            // MaxSpeed caps Velocity.x
-            if (Math.abs(this._velocity.x) < this._maxSpeedX) {
-                this._velocity.x += this._accelerationX;
-            }
-            this._velocity.x *= this._friction;
-            this.position.x += this._velocity.x;
-            this.position.y += this._velocity.y + this._gravity;
-            //     console.log("Position" + this.position + " Vel: " + this._velocity + " Acc: " + this._accelerationX);
             _super.prototype.update.call(this);
         };
-        Player.prototype.getVelocity = function () {
-            return this._velocity;
-        };
-        Player.prototype.setVelocity = function (newVelocity) {
-            this._velocity = newVelocity;
-        };
-        Player.prototype.getIsGrounded = function () {
-            return this._isGrounded;
-        };
-        Player.prototype.setIsGrounded = function (b) {
-            this._isGrounded = b;
-        };
-        Player.prototype.getIsOnLeaf = function () {
-            return this._isOnLeaf;
-        };
-        Player.prototype.setIsOnLeaf = function (b) {
-            this._isOnLeaf = b;
-        };
-        Player.prototype.moveRight = function () {
-            this._accelerationX += 0.05;
-        };
+        //TODO
         Player.prototype.moveLeft = function () {
-            this._accelerationX += -0.05;
-        };
-        Player.prototype.resetAcceleration = function () {
-            this._accelerationX = 0;
-        };
-        Player.prototype.jump = function () {
-            if (this._isGrounded) {
-                this.setIsGrounded(false);
-                this._velocity.y = -10;
-                this._isJumping = true;
+            if (!this._isMoving) {
+                this._isMoving = true;
+                this._isIdle = false;
             }
-            if (this._isOnLeaf) {
-                this.setIsOnLeaf(false);
-                this._velocity.y = -10;
-                this._isJumping = true;
+            this._isFacingUp = false;
+            this._isFacingDown = false;
+            this._isFacingRight = false;
+            if (!this._isFacingLeft) {
+                this.scaleX = -1;
+                this.gotoAndPlay("walk side");
+                this._isFacingLeft = true;
             }
+            this._previousPositionX = this.position.x;
+            this.position.x -= 1;
+            /*  if (controls.DIG) {
+                  this.dig();
+              }
+             */
+        };
+        //TODO
+        Player.prototype.moveRight = function () {
+            if (!this._isMoving) {
+                this._isMoving = true;
+                this._isIdle = false;
+            }
+            this._isFacingUp = false;
+            this._isFacingDown = false;
+            this._isFacingLeft = false;
+            if (!this._isFacingRight) {
+                this.scaleX = 1;
+                this.gotoAndPlay("walk side");
+                this._isFacingRight = true;
+                console.log("Look, Im moving right!");
+            }
+            this._previousPositionX = this.position.x;
+            this.position.x += 1;
+        };
+        //Works
+        Player.prototype.moveUp = function () {
+            if (!this._isMoving) {
+                this._isMoving = true;
+                this._isIdle = false;
+            }
+            this._isFacingDown = false;
+            this._isFacingLeft = false;
+            this._isFacingRight = false;
+            if (!this._isFacingUp) {
+                this.gotoAndPlay("walk back");
+                this._isFacingUp = true;
+            }
+            this._previousPositionY = this.position.y;
+            this.position.y -= 1;
+        };
+        //Works
+        Player.prototype.moveDown = function () {
+            if (!this._isMoving) {
+                this._isMoving = true;
+                this._isIdle = false;
+            }
+            this._isFacingUp = false;
+            this._isFacingLeft = false;
+            this._isFacingRight = false;
+            if (!this._isFacingDown) {
+                this.gotoAndPlay("walk front");
+                this._isFacingDown = true;
+            }
+            this._previousPositionY = this.position.y;
+            this.position.y += 1;
+        };
+        Player.prototype.idle = function () {
+            if (this._isFacingUp) {
+                this.gotoAndPlay("idle back");
+                this._isMoving = false;
+            }
+            if (this._isFacingDown) {
+                this.gotoAndPlay("idle front");
+                this._isMoving = false;
+            }
+            if (this._isFacingLeft) {
+                this.scaleX = -1;
+                this.gotoAndPlay("idle side");
+                this._isMoving = false;
+            }
+            if (this._isFacingRight) {
+                this.scaleX = 1;
+                this.gotoAndPlay("idle side");
+                this._isMoving = false;
+            }
+            this._isIdle = true;
         };
         return Player;
     }(objects.GameObject));
