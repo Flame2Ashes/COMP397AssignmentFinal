@@ -20,23 +20,25 @@ var scenes;
             this._player.regX = this._player.width * 0.5;
             this._dirtblock = new objects.Tile("dirtblock");
             this._dirtblock.regX = this._dirtblock.width * 0.5;
+            this._dirtblock.regY = this._dirtblock.height * 0.5;
+            this.levelArray = [];
             //Create labels
-            this._lifeLabel = new objects.Label("Life: " + life, "40px Arial", "#ffffff", config.Screen.CENTER_X - 300, 50);
+            this._lifeLabel = new objects.Label("Life: " + oxygen, "40px Arial", "#ffffff", config.Screen.CENTER_X - 300, 50);
             //Create the level
-            this.levelArray = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            for (var i = 0; i <= 10; i++) {
+                for (var j = 0; j <= 10; j++) {
+                    var tile = new objects.Tile("dirtblock");
+                    var x = i * 45;
+                    var y = j * 45;
+                    tile.setPosition(new objects.Vector2(x, y));
+                    this.levelArray.push(tile);
+                    this._scrollableObjContainer.addChild(tile);
+                }
+            }
             //Scrollable Container. Make the thing scroll
             //     this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
             //      this._scrollableObjContainer.addChild(this._ground);
-            this._scrollableObjContainer.addChild(this._dirtblock);
             this.addChild(this._scrollableObjContainer);
             //Add labels last
             this.addChild(this._lifeLabel);
@@ -61,13 +63,14 @@ var scenes;
             }
             if (controls.DIG) {
                 this._player.dig();
-                if (this.checkCollision(this._player, this._dirtblock)) {
-                    this._scrollableObjContainer.removeChild(this._dirtblock);
-                    console.log("Hit dirtblock");
-                }
+                for (var i in this.levelArray)
+                    if (this.checkCollision(this._player, this.levelArray[i])) {
+                        this._scrollableObjContainer.removeChild(this.levelArray[i]);
+                        this._num = Math.floor(Math.random() * 100) + 1;
+                        this.getBonus(this._num);
+                    }
             }
             if (this.checkCollision(this._player, this._dirtblock)) {
-                console.log("Hit dirtblock");
             }
             this._player.update();
             if (this.checkScroll()) {
@@ -116,7 +119,7 @@ var scenes;
             }
         };
         Play.prototype._scrollBGForward = function (speed) {
-            if (this._scrollableObjContainer.regX < config.Screen.WIDTH - 1200)
+            if (this._scrollableObjContainer.regX < config.Screen.WIDTH)
                 this._scrollableObjContainer.regX = speed - 300;
         };
         Play.prototype.checkScroll = function () {
@@ -131,10 +134,21 @@ var scenes;
             if (obj2.x < obj1.x + obj1.getBounds().width &&
                 obj2.x + obj2.getBounds().width > obj1.x &&
                 obj2.y < obj1.y + obj1.getBounds().height &&
-                obj2.y + obj2.getBounds().height > obj1.y - 10) {
+                obj2.y + obj2.getBounds().height > obj1.y - 45) {
                 return true;
             }
             return false;
+        };
+        Play.prototype.getBonus = function (num) {
+            if (num == 1) {
+                console.log("Coin");
+            }
+            if (num == 100) {
+                console.log("Air");
+            }
+            else {
+                console.log("Nothing");
+            }
         };
         return Play;
     }(objects.Scene));

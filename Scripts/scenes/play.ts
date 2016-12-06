@@ -1,64 +1,66 @@
 module scenes {
     export class Play extends objects.Scene {
 
-        private _bg : createjs.Bitmap;
+        private _bg: createjs.Bitmap;
 
-        private _ground : createjs.Bitmap;
-        private _player : objects.Player;
-        private _dirtblock : objects.Tile;
+        private _ground: createjs.Bitmap;
+        private _player: objects.Player;
+        private _dirtblock: objects.Tile;
 
-        private _lifeLabel : objects.Label;
-        private _timeLabel : objects.Label;
-        private _hasKey : boolean = false;
+        private _lifeLabel: objects.Label;
+        private _timeLabel: objects.Label;
+        private _hasKey: boolean = false;
 
         //Arrays for objects
-        private levelArray : number[];
+        private levelArray: objects.Tile[];
+       
 
-        private _w : number;
-        private _h : number;
+        private _w: number;
+        private _h: number;
+        private _num: number;
 
-        private _scrollableObjContainer : createjs.Container;
+        private _scrollableObjContainer: createjs.Container;
 
-        private _scrollTrigger : number = 350;
+        private _scrollTrigger: number = 350;
 
         constructor() {
             super();
         }
 
-        public start() : void {
-        //    this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
-        //    this._ground = new createjs.Bitmap(assets.getResult("floor"));
+        public start(): void {
+            //    this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
+            //    this._ground = new createjs.Bitmap(assets.getResult("floor"));
             this._scrollableObjContainer = new createjs.Container();
             this._player = new objects.Player("idle side");
             this._player.regX = this._player.width * 0.5;
             this._dirtblock = new objects.Tile("dirtblock");
             this._dirtblock.regX = this._dirtblock.width * 0.5;
+            this._dirtblock.regY = this._dirtblock.height * 0.5;
+            this.levelArray = [];
+
+
 
             //Create labels
-             this._lifeLabel = new objects.Label("Life: " + life, "40px Arial", "#ffffff", config.Screen.CENTER_X - 300, 50);
+            this._lifeLabel = new objects.Label("Life: " + oxygen, "40px Arial", "#ffffff", config.Screen.CENTER_X - 300, 50);
 
-             //Create the level
+            //Create the level
 
-             this.levelArray = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]    
-                               ;
-            
-           
-          
+            for (var i = 0; i <= 10; i++) {
+                for (var j = 0; j <= 10; j++) {
+
+                    var tile = new objects.Tile("dirtblock");
+                    var x = i * 45;
+                    var y = j * 45;
+                    tile.setPosition(new objects.Vector2(x, y));
+                    this.levelArray.push(tile);
+                    this._scrollableObjContainer.addChild(tile);
+                }
+            }
             //Scrollable Container. Make the thing scroll
 
-       //     this._scrollableObjContainer.addChild(this._bg);
+            //     this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
-      //      this._scrollableObjContainer.addChild(this._ground);
-            this._scrollableObjContainer.addChild(this._dirtblock);
-
+            //      this._scrollableObjContainer.addChild(this._ground);
 
 
             this.addChild(this._scrollableObjContainer);
@@ -74,16 +76,16 @@ module scenes {
             stage.addChild(this);
         }
 
-        public update() : void {
+        public update(): void {
 
             //Controls
 
-            if(controls.LEFT) {
+            if (controls.LEFT) {
                 this._player.moveLeft();
             }
-            if(controls.RIGHT) { 
+            if (controls.RIGHT) {
                 this._player.moveRight();
-            } 
+            }
 
             if (controls.UP) {
                 this._player.moveUp();
@@ -94,29 +96,32 @@ module scenes {
 
             if (controls.DIG) {
                 this._player.dig();
-            if (this.checkCollision(this._player, this._dirtblock)) {
-                this._scrollableObjContainer.removeChild(this._dirtblock);
-             console.log("Hit dirtblock");
-         }
+                for (let i in this.levelArray)
+                if (this.checkCollision(this._player, this.levelArray[i])) {
+                    this._scrollableObjContainer.removeChild(this.levelArray[i]);
+                    this._num = Math.floor(Math.random() * 100) + 1;
+                    this.getBonus(this._num);
+                }
+
             }
 
-               
 
-         if (this.checkCollision(this._player, this._dirtblock)) {
-             console.log("Hit dirtblock");
-         }
+
+            if (this.checkCollision(this._player, this._dirtblock)) {
+
+            }
 
             this._player.update();
 
-            if(this.checkScroll()) {
+            if (this.checkScroll()) {
                 this._scrollBGForward(this._player.position.x);
             }
 
 
         }
 
-        private _onKeyDown(event: KeyboardEvent) : void {
-             switch(event.keyCode) {
+        private _onKeyDown(event: KeyboardEvent): void {
+            switch (event.keyCode) {
                 case keys.W:
                     console.log("W key pressed");
                     controls.UP = true;
@@ -139,9 +144,9 @@ module scenes {
             }
         }
 
-        private _onKeyUp(event : KeyboardEvent) : void {
-            switch(event.keyCode) {
-                case keys.W:               
+        private _onKeyUp(event: KeyboardEvent): void {
+            switch (event.keyCode) {
+                case keys.W:
                     controls.UP = false;
                     break;
                 case keys.S:
@@ -158,13 +163,13 @@ module scenes {
             }
         }
 
-        private _scrollBGForward(speed : number) : void{
-            if(this._scrollableObjContainer.regX < config.Screen.WIDTH - 1200)
+        private _scrollBGForward(speed: number): void {
+            if (this._scrollableObjContainer.regX < config.Screen.WIDTH)
                 this._scrollableObjContainer.regX = speed - 300;
         }
 
-        private checkScroll() : boolean {
-            if(this._player.x >= this._scrollTrigger) {
+        private checkScroll(): boolean {
+            if (this._player.x >= this._scrollTrigger) {
                 return true;
             }
             else {
@@ -172,16 +177,29 @@ module scenes {
             }
         }
 
-        private checkCollision(obj1 : objects.GameObject, obj2 : objects.GameObject) : boolean {
+        private checkCollision(obj1: objects.GameObject, obj2: objects.GameObject): boolean {
 
-            if(obj2.x < obj1.x + obj1.getBounds().width &&
+            if (obj2.x < obj1.x + obj1.getBounds().width &&
                 obj2.x + obj2.getBounds().width > obj1.x &&
                 obj2.y < obj1.y + obj1.getBounds().height &&
-                obj2.y + obj2.getBounds().height > obj1.y - 10) {
+                obj2.y + obj2.getBounds().height > obj1.y - 45) {
                 return true;
             }
 
             return false;
         }
+
+        private getBonus(num: number) {
+            if (num == 1) {
+                console.log("Coin");
+            }
+            if (num == 100) {
+                console.log("Air");
+            }
+            else {
+                console.log("Nothing");
+            }
+        }
+
     }
 }

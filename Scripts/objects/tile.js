@@ -9,9 +9,14 @@ var objects;
         __extends(Tile, _super);
         function Tile(imgString) {
             _super.call(this, imgString);
-            this._isDug = false;
             this.start();
         }
+        Tile.prototype.update = function () {
+        };
+        Tile.prototype.setPosition = function (position) {
+            this.x = position.x;
+            this.y = position.y;
+        };
         return Tile;
     }(objects.GameObject));
     objects.Tile = Tile;

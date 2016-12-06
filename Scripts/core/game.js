@@ -10,7 +10,8 @@ var spriteSheetLoader;
 var ratAtlas;
 var currentScene;
 var scene;
-var life = 100;
+var oxygen = 100;
+var score = 0;
 // Preload Assets required
 var assetData = [
     //Backgro1unds

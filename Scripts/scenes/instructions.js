@@ -31,7 +31,7 @@ var scenes;
             stage.addChild(this);
         };
         Instructions.prototype._startButtonClick = function (event) {
-            life = 100;
+            oxygen = 100;
             scene = config.Scene.PLAY;
             changeScene();
         };

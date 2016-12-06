@@ -38,7 +38,7 @@ module scenes {
         }
 
             private _startButtonClick(event : createjs.MouseEvent) {
-            life = 100;
+            oxygen = 100;
             scene = config.Scene.PLAY;
             changeScene();
         }

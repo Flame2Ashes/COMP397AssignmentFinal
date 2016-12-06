@@ -16,7 +16,8 @@ var ratAtlas : createjs.SpriteSheet;
 var currentScene : objects.Scene;
 var scene: number;
 
-var life : number = 100;
+var oxygen : number = 100;
+var score = 0;
 
 
 // Preload Assets required
