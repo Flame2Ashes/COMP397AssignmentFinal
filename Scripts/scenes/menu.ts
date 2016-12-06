@@ -1,34 +1,34 @@
 /*
-    Scene module to group all user-defined scenes  under the same "namespace aka module"
-    Menu scene that contains all assets and functionality associated with the menu itself
+	File Name:             Scene Menu - TS|JS File 
+	Author:                Angelina Gutierrez
+    Last Modified By:      Elaine Mae Villarino 
+	Last Modified Date:    Tuesday, December 06th, 2016
+	Website Name:          COMP397 - Final Project
+	Program Description:   JS file that contains the components that 
+                           are required to render the game's Menu scene.
+    Revision History:      Actually implement Menu scene
 */
-
-//Source file: menu.ts
-//Author name: Angelina Gutierrez
-//Last modified: November 20th 2016
 
 module scenes {
     export class Menu extends objects.Scene {
 
-        // Private instance variables
-        // Label or bitmap
-        // Button 
-        private _gameButton : objects.Button;
-        private _instructionButton : objects. Button;
-        private _menuBG : createjs.Bitmap;
+        // PRIVATE VARIABLES
+        private _gameButton: objects.Button;
+        private _instructionButton: objects.Button;
+        private _menuBG: createjs.Bitmap;
 
         // Menu Class Contructor
-        constructor()
-        {
+        constructor() {
             super();
         }
 
-        public start() : void {
+        // PUBLIC FUNCTIONS
+        public start(): void {
+            // Add objects to the scene
             console.log("Menu Scene Started");
 
-            //Add the background
+            // Create BG for scene and add to Game Scene container
             this._menuBG = new createjs.Bitmap(assets.getResult("Menu_BG"));
-            this._menuBG.alpha = 0.7;
             this.addChild(this._menuBG);
 
             // Add button to scene. Register for click callback function
@@ -46,19 +46,22 @@ module scenes {
             stage.addChild(this);
         }
 
-        public update() : void {
-
+        // Run on every tick
+        public update(): void {
+            // Update objects
         }
 
-        // Fucntion for when button is pressed
-        private _startButtonClick(event : createjs.MouseEvent) {
-            // Change global scene variable to GAME. Call global changeScene() function
+        // PRIVATE METHODS
+        // -- Function for when PLAY/START button is pressed
+        private _startButtonClick(event: createjs.MouseEvent) {
+            // Change global scene variable to PLAY. Call global changeScene() function
             oxygen = 100;
             scene = config.Scene.PLAY;
             changeScene();
         }
-
-        private _instructionButtonClick (event : createjs.MouseEvent) {
+        // -- Function for when INSTRUCTION button is pressed
+        private _instructionButtonClick(event: createjs.MouseEvent) {
+            // Change global scene variable to INSTRUCTIONS. Call global changeScene() function
             scene = config.Scene.INSTRUCTIONS;
             changeScene();
         }
