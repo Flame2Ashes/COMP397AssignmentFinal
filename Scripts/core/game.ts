@@ -25,7 +25,7 @@ var assetData:objects.Asset[] = [
     //Backgro1unds
     {id: "Game_BG", src: "../../Assets/images/gamebg.png"},
     {id: "Menu_BG", src: "../../Assets/images/Menu_BG.png"},
-    {id: "Instructions_BG", src: "../../Assets/images/instructionsbg.png"},
+    {id: "Instructions_BG", src: "../../Assets/images/Instruction_BG.png"},
     //Buttons
     {id: "start", src: "../../Assets/images/start.png"},
     {id: "instructions", src: "../Assets/images/instructions.png"},
