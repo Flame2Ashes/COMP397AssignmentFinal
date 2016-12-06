@@ -18,10 +18,14 @@ var scenes;
             this._gamebg.alpha = 0.5;
             this.addChild(this._gamebg);
             //Labels
-            this._gameOverLabel = new objects.Label("YOU WIN!", "100px Arial", "#000000", config.Screen.CENTER_X, 75);
+            this._gameOverLabel = new objects.Label("YOU WIN!", "50px Arial", "#000000", config.Screen.CENTER_X, 75);
             this.addChild(this._gameOverLabel);
+            // -- Print SCORE Label to scene.
+            this._scoreLabel = new objects.Label("Score: " + score, "Bold 22px Arial", "#FFF", config.Screen.CENTER_X, 25);
+            this._scoreLabel.outline = 2;
+            this.addChild(this._scoreLabel);
             //Button
-            this._playButton = new objects.Button("playAgain", config.Screen.CENTER_X - 100, 350);
+            this._playButton = new objects.Button("start", config.Screen.CENTER_X - 100, 250);
             this.addChild(this._playButton);
             this._playButton.on("click", this._playAgainClick, this);
             stage.addChild(this);

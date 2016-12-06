@@ -17,7 +17,7 @@ var currentScene : objects.Scene;
 var scene: number;
 
 var oxygen : number = 100;
-var score = 0;
+var score : number = 0;
 
 
 // Preload Assets required

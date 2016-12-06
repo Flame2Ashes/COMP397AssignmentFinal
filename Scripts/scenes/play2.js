@@ -85,6 +85,9 @@ var scenes;
         };
         // Run on every tick
         Play2.prototype.update = function () {
+            oxygen -= 0.01;
+            this._lifeLabel.text = "Life: " + Math.floor(oxygen);
+            this._scoreLabel.text = "Score: " + score;
             // Controls
             if (controls.LEFT) {
                 this._player.moveLeft();
@@ -117,7 +120,18 @@ var scenes;
             }
             if (this.checkCollision(this._player, this._key)) {
                 this._hasKey = true;
+                score = score + 500;
+                console.log(score);
                 this._scrollableObjContainer.removeChild(this._key);
+                //this._keyLabel.text = "Key: Found!" 
+                //Go to next level
+                scene = config.Scene.GAMEOVERWIN;
+                changeScene();
+            }
+            //
+            if (oxygen <= 0) {
+                scene = config.Scene.GAMEOVER;
+                changeScene();
             }
             //TODO
             if (this.checkCollision(this._player, this._dirtblock)) {

@@ -125,6 +125,11 @@ module scenes {
 
         // Run on every tick
         public update(): void {
+            
+            oxygen -= 0.01;
+            this._lifeLabel.text = "Life: " + Math.floor(oxygen);
+            this._scoreLabel.text = "Score: " + score;
+
 
             // Controls
 
@@ -162,16 +167,24 @@ module scenes {
             }
 
             if (this.checkCollision(this._player, this._key)) {
-                score + 500;
+                score = score + 500;
+                console.log(score);
                 this._hasKey = true;
                 this._scrollableObjContainer.removeChild(this._key);
                 //this._keyLabel.text = "Key: Found!"
                 //Go to next level
                 
+                oxygen = 50;
                 scene = config.Scene.PLAY2;
                 changeScene();
             }
 
+            //
+            if(oxygen <= 0)
+            {
+                scene = config.Scene.GAMEOVER;
+                changeScene();
+            }
 
 
             //TODO
@@ -184,7 +197,7 @@ module scenes {
             if (this.checkScroll()) {
                 this._scrollBGForward(this._player.position.x);
             }
-            this._scoreLabel.text = "Score: " + score;
+            
 
         }
 
