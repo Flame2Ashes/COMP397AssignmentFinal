@@ -29,6 +29,7 @@ module scenes {
 
             // Create BG for scene and add to Game Scene container
             this._menuBG = new createjs.Bitmap(assets.getResult("Menu_BG"));
+            this._menuBG.alpha = 0.85;
             this.addChild(this._menuBG);
 
             // Add button to scene. Register for click callback function

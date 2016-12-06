@@ -2,11 +2,11 @@
     File Name:             Scene Instructions - TS|JS File
     Author:                Angelina Gutierrez
     Last Modified By:      Elaine Mae Villarino
-    Last Modified Date:    Monday, November 20th, 2016
+    Last Modified Date:    Tuesday, December 06th, 2016
     Website Name:          COMP397 - Final Project
     Program Description:   JS file that contains the components that
                            are required to render the game's Instructions scene.
-    Revision History:      Actually implement instructions scene
+    Revision History:      Fix Comments
 */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -52,7 +52,7 @@ var scenes;
             scene = config.Scene.PLAY;
             changeScene();
         };
-        // -- Function for when INSTRUCTION button is pressed
+        // -- Function for when Back button is pressed
         Instructions.prototype._menuButtonClick = function (event) {
             // Change global scene variable to MENU. Call global changeScene() function
             scene = config.Scene.MENU;
