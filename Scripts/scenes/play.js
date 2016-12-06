@@ -41,6 +41,7 @@ var scenes;
             this._dirtblock.regX = this._dirtblock.width * 0.5;
             this._dirtblock.regY = this._dirtblock.height * 0.5;
             this.levelArray = [];
+            this._player.setPosition(new objects.Vector2(100, 200));
             this._spider = new objects.Spider("spider");
             this._spider.setHasKey(true);
             this._spider.setPosition(new objects.Vector2(300, 300));
@@ -115,8 +116,13 @@ var scenes;
                 }
             }
             if (this.checkCollision(this._player, this._key)) {
+                score + 500;
                 this._hasKey = true;
                 this._scrollableObjContainer.removeChild(this._key);
+                //this._keyLabel.text = "Key: Found!"
+                //Go to next level
+                scene = config.Scene.PLAY2;
+                changeScene();
             }
             //TODO
             if (this.checkCollision(this._player, this._dirtblock)) {
@@ -125,6 +131,7 @@ var scenes;
             if (this.checkScroll()) {
                 this._scrollBGForward(this._player.position.x);
             }
+            this._scoreLabel.text = "Score: " + score;
         };
         // PRIVATE METHODS
         // -- Function for when PLAY/START button is pressed

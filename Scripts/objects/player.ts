@@ -34,6 +34,11 @@ module objects {
 
             super.update();
         }
+
+        public setPosition(position : objects.Vector2) {
+                this.x = position.x;
+            this.y = position.y;
+        }
         public moveLeft(): void {
             if (!this._isMoving) {
                 this._isMoving = true;

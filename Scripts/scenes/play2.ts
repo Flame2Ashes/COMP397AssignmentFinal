@@ -10,7 +10,7 @@
 */
 
 module scenes {
-    export class Play extends objects.Scene {
+    export class Play2 extends objects.Scene {
 
         // PRIVATE VARIABLES
 
@@ -49,7 +49,7 @@ module scenes {
         // PUBLIC FUNCTIONS
         public start(): void {
             // Add objects to the scene
-
+            
             // Start Game Music 
             //createjs.Sound.stop();
             //var bgAll = createjs.Sound.play("MUSE_Game");
@@ -67,7 +67,7 @@ module scenes {
             this._dirtblock.regX = this._dirtblock.width * 0.5;
             this._dirtblock.regY = this._dirtblock.height * 0.5;
             this.levelArray = [];
-            this._player.setPosition(new objects.Vector2(100, 200));
+             this._player.setPosition(new objects.Vector2(100, 200));
 
 
             this._spider = new objects.Spider("spider");
@@ -84,14 +84,14 @@ module scenes {
             // -- Print SCORE Label to scene.
             this._scoreLabel = new objects.Label("Score: " + score, "Bold 22px Arial", "#FFF", config.Screen.CENTER_X, 25);
             this._scoreLabel.outline = 2;
-
+            
             // -- Print KEY Label to scene.
             this._keyLabel = new objects.Label("Key: Nope!", "Bold 22px Arial", "#FFF", config.Screen.CENTER_X + 150, 25);
             this._keyLabel.outline = 2;
 
             // Create the level
-            for (var i = 0; i <= 10; i++) {
-                for (var j = 0; j <= 10; j++) {
+            for (var i = 0; i <= 20; i++) {
+                for (var j = 0; j <= 20; j++) {
 
                     var tile = new objects.Tile("dirtblock");
                     var x = i * 45;
@@ -162,14 +162,9 @@ module scenes {
             }
 
             if (this.checkCollision(this._player, this._key)) {
-                score + 500;
                 this._hasKey = true;
                 this._scrollableObjContainer.removeChild(this._key);
-                //this._keyLabel.text = "Key: Found!"
-                //Go to next level
-                
-                scene = config.Scene.PLAY2;
-                changeScene();
+                //this._keyLabel.text = "Key: Found!" 
             }
 
 
@@ -184,7 +179,7 @@ module scenes {
             if (this.checkScroll()) {
                 this._scrollBGForward(this._player.position.x);
             }
-            this._scoreLabel.text = "Score: " + score;
+
 
         }
 

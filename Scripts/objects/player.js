@@ -30,6 +30,10 @@ var objects;
         Player.prototype.update = function () {
             _super.prototype.update.call(this);
         };
+        Player.prototype.setPosition = function (position) {
+            this.x = position.x;
+            this.y = position.y;
+        };
         Player.prototype.moveLeft = function () {
             if (!this._isMoving) {
                 this._isMoving = true;

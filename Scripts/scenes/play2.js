@@ -1,65 +1,39 @@
 /*
-	File Name:             Scene Menu - TS|JS File 
-	Author:                Angelina Gutierrez
-    Last Modified By:      Elaine Mae Villarino 
-	Last Modified Date:    Tuesday, December 06th, 2016
-	Website Name:          COMP397 - Final Project
-	Program Description:   JS file that contains the components that 
+    File Name:             Scene Menu - TS|JS File
+    Author:                Angelina Gutierrez
+    Last Modified By:      Elaine Mae Villarino
+    Last Modified Date:    Tuesday, December 06th, 2016
+    Website Name:          COMP397 - Final Project
+    Program Description:   JS file that contains the components that
                            are required to render the game's Menu scene.
     Revision History:      Add label and comments
 */
-
-module scenes {
-    export class Play extends objects.Scene {
-
-        // PRIVATE VARIABLES
-
-        private _bg: createjs.Bitmap;
-
-        private _ground: createjs.Bitmap;
-        private _player: objects.Player;
-        private _dirtblock: objects.Tile;
-
-        private _scoreLabel: objects.Label;
-        private _lifeLabel: objects.Label;
-        private _timeLabel: objects.Label;
-        private _keyLabel: objects.Label;
-        private _hasKey: boolean = false;
-        private _spider: objects.Spider;
-
-        private _key: objects.Key;
-
-        //Arrays for objects
-        private levelArray: objects.Tile[];
-
-
-        private _w: number;
-        private _h: number;
-        private _num: number;
-
-        private _scrollableObjContainer: createjs.Container;
-
-        private _scrollTrigger: number = 350;
-
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var scenes;
+(function (scenes) {
+    var Play2 = (function (_super) {
+        __extends(Play2, _super);
         // Game Class Contructor
-        constructor() {
-            super();
+        function Play2() {
+            _super.call(this);
+            this._hasKey = false;
+            this._scrollTrigger = 350;
         }
-
         // PUBLIC FUNCTIONS
-        public start(): void {
+        Play2.prototype.start = function () {
             // Add objects to the scene
-
             // Start Game Music 
             //createjs.Sound.stop();
             //var bgAll = createjs.Sound.play("MUSE_Game");
             //bgAll.play({ interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1, volume: 0.25 });
-
             // Create BG for scene and add to Game Scene container
             this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
             this.addChild(this._bg);
             //    this._ground = new createjs.Bitmap(assets.getResult("floor"));
-
             this._scrollableObjContainer = new createjs.Container();
             this._player = new objects.Player("idle side");
             this._player.regX = this._player.width * 0.5;
@@ -68,31 +42,23 @@ module scenes {
             this._dirtblock.regY = this._dirtblock.height * 0.5;
             this.levelArray = [];
             this._player.setPosition(new objects.Vector2(100, 200));
-
-
             this._spider = new objects.Spider("spider");
             this._spider.setHasKey(true);
             this._spider.setPosition(new objects.Vector2(300, 300));
-
             this._key = new objects.Key("key");
-
             // Add UI GOs to Scene
             // -- Print LIFE Label to scene.
             this._lifeLabel = new objects.Label("Life: " + oxygen, "Bold 22px Arial", "#FFF", config.Screen.CENTER_X - 165, 25);
             this._lifeLabel.outline = 2;
-
             // -- Print SCORE Label to scene.
             this._scoreLabel = new objects.Label("Score: " + score, "Bold 22px Arial", "#FFF", config.Screen.CENTER_X, 25);
             this._scoreLabel.outline = 2;
-
             // -- Print KEY Label to scene.
             this._keyLabel = new objects.Label("Key: Nope!", "Bold 22px Arial", "#FFF", config.Screen.CENTER_X + 150, 25);
             this._keyLabel.outline = 2;
-
             // Create the level
-            for (var i = 0; i <= 10; i++) {
-                for (var j = 0; j <= 10; j++) {
-
+            for (var i = 0; i <= 20; i++) {
+                for (var j = 0; j <= 20; j++) {
                     var tile = new objects.Tile("dirtblock");
                     var x = i * 45;
                     var y = j * 45;
@@ -101,50 +67,40 @@ module scenes {
                     this._scrollableObjContainer.addChild(tile);
                 }
             }
-
             // Scrollable Container. Make the thing scroll
             //this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
             this._scrollableObjContainer.addChild(this._spider);
             //this._scrollableObjContainer.addChild(this._ground);
-
             this.addChild(this._scrollableObjContainer);
-
             // Add labels last
             this.addChild(this._lifeLabel);
             this.addChild(this._scoreLabel);
             this.addChild(this._keyLabel);
-
             // Start Listening for Player Keyboard Actions
             window.onkeydown = this._onKeyDown;
             window.onkeyup = this._onKeyUp;
-
             // Add game scene to global stage container
             stage.addChild(this);
-        }
-
+        };
         // Run on every tick
-        public update(): void {
-
+        Play2.prototype.update = function () {
             // Controls
-
             if (controls.LEFT) {
                 this._player.moveLeft();
             }
             if (controls.RIGHT) {
                 this._player.moveRight();
             }
-
             if (controls.UP) {
                 this._player.moveUp();
             }
             if (controls.DOWN) {
                 this._player.moveDown();
             }
-
             if (controls.DIG) {
                 this._player.dig();
-                for (let i in this.levelArray)
+                for (var i in this.levelArray)
                     if (this.checkCollision(this._player, this.levelArray[i])) {
                         this._scrollableObjContainer.removeChild(this.levelArray[i]);
                         this._num = Math.floor(Math.random() * 100) + 1;
@@ -158,39 +114,22 @@ module scenes {
                         this._scrollableObjContainer.addChild(this._key);
                     }
                 }
-
             }
-
             if (this.checkCollision(this._player, this._key)) {
-                score + 500;
                 this._hasKey = true;
                 this._scrollableObjContainer.removeChild(this._key);
-                //this._keyLabel.text = "Key: Found!"
-                //Go to next level
-                
-                scene = config.Scene.PLAY2;
-                changeScene();
             }
-
-
-
             //TODO
             if (this.checkCollision(this._player, this._dirtblock)) {
-
             }
-
             this._player.update();
-
             if (this.checkScroll()) {
                 this._scrollBGForward(this._player.position.x);
             }
-            this._scoreLabel.text = "Score: " + score;
-
-        }
-
+        };
         // PRIVATE METHODS
         // -- Function for when PLAY/START button is pressed
-        private _onKeyDown(event: KeyboardEvent): void {
+        Play2.prototype._onKeyDown = function (event) {
             switch (event.keyCode) {
                 case keys.W:
                     console.log("W key pressed");
@@ -212,9 +151,8 @@ module scenes {
                     console.log("Space key pressed");
                     controls.DIG = true;
             }
-        }
-
-        private _onKeyUp(event: KeyboardEvent): void {
+        };
+        Play2.prototype._onKeyUp = function (event) {
             switch (event.keyCode) {
                 case keys.W:
                     controls.UP = false;
@@ -231,35 +169,29 @@ module scenes {
                 case keys.SPACE:
                     controls.DIG = false;
             }
-        }
-
-        private _scrollBGForward(speed: number): void {
+        };
+        Play2.prototype._scrollBGForward = function (speed) {
             if (this._scrollableObjContainer.regX < config.Screen.WIDTH)
                 this._scrollableObjContainer.regX = speed - 300;
-        }
-
-        private checkScroll(): boolean {
+        };
+        Play2.prototype.checkScroll = function () {
             if (this._player.x >= this._scrollTrigger) {
                 return true;
             }
             else {
                 return false;
             }
-        }
-
-        private checkCollision(obj1: objects.GameObject, obj2: objects.GameObject): boolean {
-
+        };
+        Play2.prototype.checkCollision = function (obj1, obj2) {
             if (obj2.x < obj1.x + obj1.getBounds().width &&
                 obj2.x + obj2.getBounds().width > obj1.x &&
                 obj2.y < obj1.y + obj1.getBounds().height &&
                 obj2.y + obj2.getBounds().height > obj1.y - 45) {
                 return true;
             }
-
             return false;
-        }
-
-        private getBonus(num: number) {
+        };
+        Play2.prototype.getBonus = function (num) {
             if (num == 1) {
                 console.log("Coin");
             }
@@ -269,7 +201,9 @@ module scenes {
             else {
                 console.log("Nothing");
             }
-        }
-
-    }
-}
+        };
+        return Play2;
+    }(objects.Scene));
+    scenes.Play2 = Play2;
+})(scenes || (scenes = {}));
+//# sourceMappingURL=play2.js.map

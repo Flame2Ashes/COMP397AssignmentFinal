@@ -167,6 +167,12 @@ function changeScene() : void {
             stage.removeAllChildren();
             currentScene = new scenes.Gameoverwin();
             console.log("Starting GAMEOVERWIN scene");
+            break;
+        case config.Scene.PLAY2 :
+            stage.removeAllChildren();
+            currentScene = new scenes.Play2();
+            console.log("Starting second level");
+            break;
     }
     
 }
