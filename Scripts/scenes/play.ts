@@ -26,16 +26,20 @@ module scenes {
         private _keyLabel: objects.Label;
         private _hasKey: boolean = false;
         private _spider: objects.Spider;
+        private _air: objects.Air;
+        private _coin: objects.Coin;
 
         private _key: objects.Key;
 
         //Arrays for objects
-        private levelArray: objects.Tile[];
+        private levelArray: objects.Tile[][];
 
 
         private _w: number;
         private _h: number;
         private _num: number;
+
+        _digOffset : objects.Vector2;
 
         private _scrollableObjContainer: createjs.Container;
 
@@ -66,7 +70,9 @@ module scenes {
             this._dirtblock = new objects.Tile("dirtblock");
             this._dirtblock.regX = this._dirtblock.width * 0.5;
             this._dirtblock.regY = this._dirtblock.height * 0.5;
-            this.levelArray = [];
+
+            
+
             this._player.setPosition(new objects.Vector2(100, 200));
 
 
@@ -88,17 +94,19 @@ module scenes {
             // -- Print KEY Label to scene.
             this._keyLabel = new objects.Label("Key: Nope!", "Bold 22px Arial", "#FFF", config.Screen.CENTER_X + 150, 25);
             this._keyLabel.outline = 2;
+            this.levelArray = [];
 
             // Create the level
             for (var i = 0; i <= 10; i++) {
+                this.levelArray[i] = [];
                 for (var j = 0; j <= 10; j++) {
-
                     var tile = new objects.Tile("dirtblock");
                     var x = i * 45;
                     var y = j * 45;
                     tile.setPosition(new objects.Vector2(x, y));
-                    this.levelArray.push(tile);
-                    this._scrollableObjContainer.addChild(tile);
+                    this.levelArray[i][j] = tile;
+                    console.log("tile at index " + i + ", " + j + " is " + this.levelArray[i][j]);
+                    this._scrollableObjContainer.addChild(this.levelArray[i][j]);
                 }
             }
 
@@ -125,7 +133,7 @@ module scenes {
 
         // Run on every tick
         public update(): void {
-            
+
             oxygen -= 0.01;
             this._lifeLabel.text = "Life: " + Math.floor(oxygen);
             this._scoreLabel.text = "Score: " + score;
@@ -135,36 +143,85 @@ module scenes {
 
             if (controls.LEFT) {
                 this._player.moveLeft();
+                this._digOffset = new objects.Vector2(-20, 0);
             }
             if (controls.RIGHT) {
+                var arrayIndexX = Math.floor((this._player.x + (this._player.width / 2)) / 45);
+                var arrayIndexY = Math.floor(this._player.y / 45);
+                if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
+                    console.log("it's null");
                 this._player.moveRight();
+                this._digOffset = new objects.Vector2(20, 0);
+
+                }
+                else{
+                    console.log("nopen it's " + this.levelArray[arrayIndexX][arrayIndexY]);
+                }
             }
 
             if (controls.UP) {
                 this._player.moveUp();
+                this._digOffset = new objects.Vector2(0, -20);
             }
             if (controls.DOWN) {
                 this._player.moveDown();
+                this._digOffset = new objects.Vector2(0, 20);
             }
 
             if (controls.DIG) {
                 this._player.dig();
-                for (let i in this.levelArray)
+                var x = Math.floor((this._player.x + this._digOffset.x) / 45);
+                var y = Math.floor((this._player.y + this._digOffset.y) / 45);
+                console.log("tile at index is " + [x][y]);
+                var tile = this.levelArray[x][y];
+                console.log("PLS REMOVE");
+                this._scrollableObjContainer.removeChild(this.levelArray[x][y]);
+                this.levelArray[x][y] = null;
+                /*for (let i in this.levelArray)
                     if (this.checkCollision(this._player, this.levelArray[i])) {
                         this._scrollableObjContainer.removeChild(this.levelArray[i]);
                         this._num = Math.floor(Math.random() * 100) + 1;
-                        this.getBonus(this._num);
-                    }
+                        if (this._num == 1) {
+                            console.log("Coin");
+                            this._coin = new objects.Coin("coin");
+                            this._coin.setPosition(this.levelArray[i].getPosition());
+                            this._scrollableObjContainer.addChild(this._coin);
+                        }
+                        if (this._num == 100) {
+                            this._air = new objects.Air("oxygen");
+                            this._air.setPosition(this.levelArray[i].getPosition());
+                            this._scrollableObjContainer.addChild(this._air);
+                        }
+                        else {
+                            console.log("Nothing");
+                        }
+                        
+                    }*/
                 if (this.checkCollision(this._player, this._spider)) {
                     this._spider.getHit();
                     if (this._spider._healthCount <= 0) {
-                        this._key.setPosition(new objects.Vector2(this._spider.position.x, this._spider.position.y));
+                        this._key.setPosition(this._spider.getPosition());
                         this._scrollableObjContainer.removeChild(this._spider);
                         this._scrollableObjContainer.addChild(this._key);
+
                     }
                 }
+            }
+
+
+            if (this._air != null && this.checkCollision(this._player, this._air)) {
+                oxygen += 10;
+                this._scrollableObjContainer.removeChild(this._air);
+                this._air = null;
 
             }
+            if (this._coin != null && this.checkCollision(this._player, this._coin)) {
+                score += 100;
+                this._scrollableObjContainer.removeChild(this._coin);
+                this._coin = null;
+
+            }
+
 
             if (this.checkCollision(this._player, this._key)) {
                 score = score + 500;
@@ -173,33 +230,33 @@ module scenes {
                 this._scrollableObjContainer.removeChild(this._key);
                 //this._keyLabel.text = "Key: Found!"
                 //Go to next level
-                
+
                 oxygen = 50;
                 scene = config.Scene.PLAY2;
                 changeScene();
             }
 
             //
-            if(oxygen <= 0)
-            {
+            if (oxygen <= 0) {
                 scene = config.Scene.GAMEOVER;
                 changeScene();
             }
 
 
-            //TODO
-            if (this.checkCollision(this._player, this._dirtblock)) {
 
-            }
+
+
 
             this._player.update();
 
             if (this.checkScroll()) {
                 this._scrollBGForward(this._player.position.x);
             }
-            
+
 
         }
+
+
 
         // PRIVATE METHODS
         // -- Function for when PLAY/START button is pressed
@@ -270,18 +327,6 @@ module scenes {
             }
 
             return false;
-        }
-
-        private getBonus(num: number) {
-            if (num == 1) {
-                console.log("Coin");
-            }
-            if (num == 100) {
-                console.log("Air");
-            }
-            else {
-                console.log("Nothing");
-            }
         }
 
     }

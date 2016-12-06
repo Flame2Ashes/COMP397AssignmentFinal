@@ -1,5 +1,5 @@
 module objects {
-    export class Key extends objects.GameObject {
+    export class Coin extends objects.GameObject {
 
         constructor(imgString : string) {
             super(imgString);
@@ -16,8 +16,8 @@ module objects {
             this.y = position.y;
         }
 
-         public getPosition() : objects.Vector2 {
-            return new objects.Vector2(this.x, this.y);
+        public addPoints() : void {
+            score += 10;
         }
         }
 

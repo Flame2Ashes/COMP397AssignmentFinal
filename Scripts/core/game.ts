@@ -66,58 +66,62 @@ function init() {
        ],
 
        "frames": [
-    [1, 1, 59, 31, 0, 0, 0], //0 - Rat - Slash side - frame 3
-    [1, 34, 45, 45, 0, 0, 0], //1 - Dirtblock
-    [1, 81, 31, 37, 0, 0, 0], //2 - Rat - Idle back - frame 1
-    [62, 1, 58, 30, 0, 0, 0], //3 - Rat - Slash side - frame 2
-    [122, 1, 47, 28, 0, 0, 0], //4 - Spider
-    [171, 1, 40, 31, 0, 0, 0], //5 - ???????????
-    [213, 1, 40, 31, 0, 0, 0], //6 - Rat - Dead front - frame 1
-    [255, 1, 39, 44, 0, 0, 0], //7 - Rat - Dead back - frame 1
-    [296, 1, 39, 39, 0, 0, 0], //8 - Rat - Dead back - frame 2
-    [337, 1, 38, 38, 0, 0, 0], //9 - Rat - Dead side - frame 2
-    [377, 1, 36, 40, 0, 0, 0], //10 - Rat - Slash side - frame 1
-    [48, 34, 32, 48, 0, 0, 0], //11 - Rat - Slash back - frame 2
-    [82, 33, 31, 46, 0, 0, 0], //12 - Rat - Slash back - frame 3
-    [34, 84, 37, 32, 0, 0, 0], //13 - Rat - Idle side - frame 1 
-    [115, 33, 30, 47, 0, 0, 0], //14 - Rat - Slash front - Frame 3
-    [147, 34, 31, 46, 0, 0, 0], //15 - Rat - Slash front - Frame 2
-    [180, 34, 31, 38, 0, 0, 0], //16 - Rat - Walk back - frame 2
-    [213, 34, 31, 38, 0, 0, 0], // 17 - Rat - Walk back - frame 4
-    [246, 47, 37, 31, 0, 0, 0], //18 - Rat - Idle side - frame 2
-    [180, 74, 36, 30, 0, 0, 0], // 19 - DO NOT USE
-    [218, 74, 25, 20, 0, 0, 0], // 20 - Key
-    [245, 80, 35, 31, 0, 0, 0], //21 - Rat - Walk side - frame 1
-    [285, 47, 33, 31, 0, 0, 0], //22 - Rat - Walk front - frame 3
-    [282, 80, 35, 31, 0, 0, 0], //23 - Rat - Walk side - frame 2
-    [320, 42, 32, 35, 0, 0, 0], //24 - Rat - Walk back - frame 1
-    [354, 43, 35, 31, 0, 0, 0], //25 - Rat - Dead front - frame 2
-    [391, 43, 33, 31, 0, 0, 0], //26 - Rat - Walk front - frame 1
-    [73, 84, 34, 31, 0, 0, 0], //27 - Rat - Walk front - frame 2
-    [109, 82, 35, 30, 0, 0, 0], //28 - Rat - Dead side - frame 1
-    [146, 82, 31, 35, 0, 0, 0], //29 - Rat - Walk back - frame 3
-    [354, 76, 33, 31, 0, 0, 0], //30 - DO NOT USE
-    [389, 76, 33, 31, 0, 0, 0], //31 - Rat - Walk front - frame 4
-    [319, 80, 33, 31, 0, 0, 0] //32 - Rat - Idle front - frame 1
+    [1, 1, 80, 65, 0, 0, 0], //0 - Treasure
+    [83, 1, 39, 44, 0, 0, 0], //1 - Rat - Slash back - Frame 1
+    [83, 47, 32, 48, 0, 0, 0], //2 - Rat - Slash back - Frame 2
+    [1, 68, 45, 45, 0, 0, 0], //3 - Dirtblock
+    [48, 68, 31, 46, 0, 0, 0], //4 - Rat - Slash back - Frame 3
+    [1, 115, 39, 39, 0, 0, 0], //5 - Rat - Dead back - Frame 2
+    [81, 97, 38, 38, 0, 0, 0], //6 - Rat - Dead side - Frame 2
+    [42, 116, 36, 40, 0, 0, 0], //7 - Rat - Slash side - Frame 1
+    [1, 156, 31, 46, 0, 0, 0], //8 - Rat - Slash front - Frame 2
+    [80, 137, 30, 47, 0, 0, 0], //9 - Rat - Slash front - Frame 3
+    [34, 158, 37, 36, 0, -3, -5], //10 - Coin
+    [73, 186, 47, 28, 0, 0, 0], //11 - Spider
+    [34, 196, 37, 32, 0, 0, 0], //12 - Rat - Idle side - Frame 1
+    [1, 204, 31, 38, 0, 0, 0], //13 - Rat - Walk back - Frame 2
+    [73, 216, 40, 31, 0, 0, 0], //14 - Rat - Dead back - Frame 1
+    [34, 230, 31, 38, 0, 0, 0], //15 - Rat - Walk back - Frame 4
+    [1, 244, 31, 37, 0, 0, 0], //16 - Rat - Idle back - Frame 1
+    [67, 249, 58, 30, 0, 0, 0], //17 - Rat - Slash side - Frame 2
+    [34, 270, 31, 37, 0, -8, -5], //18 - Bubble
+    [1, 283, 31, 35, 0, 0, 0], //19 - Rat - Walk back - Frame 1
+    [67, 281, 40, 31, 0, 0, 0], //20 - Rat - Dead Front - Frame 1
+    [34, 309, 25, 14, 0, 0, -3], //21 - Key
+    [61, 314, 59, 31, 0, 0, 0], //22 - Rat - Slash side - Frame 3
+    [1, 325, 37, 31, 0, 0, 0], //23 - Rat - Idle side - Frame 2
+    [40, 347, 32, 35, 0, 0, 0], //24 - Rat - Walk back - Frame 3
+    [1, 358, 35, 31, 0, 0, 0], //25 - Rat - Walk side - Frame 1
+    [74, 347, 35, 31, 0, 0, 0], //26 - Rat - Walk side - Frame 2
+    [74, 380, 35, 31, 0, 0, 0], //27 - Rat - Dead Front - Frame 2
+    [38, 384, 34, 31, 0, 0, 0], //28 - Rat - Walk Front - Frame 3
+    [1, 391, 35, 30, 0, 0, 0], //29 - Rat - Dead side - Frame 1
+    [74, 413, 36, 30, 0, 0, 0], //30 - Rat - ??????
+    [38, 417, 33, 31, 0, 0, 0], //31 - Rat - Walk Front - Frame 1
+    [73, 445, 33, 31, 0, 0, 0], //32 - Rat - Walk Front - Frame 2
+    [1, 423, 33, 31, 0, 0, 0], //33 - Rat - Walk Front - Frame 4
+    [36, 450, 33, 31, 0, 0, 0] //34 - Rat - Idle Front - Frame 1
         ],
 
         "animations": {
             //Rat animations
-            "idle side": { "frames": [13, 18], "speed": 0.1, next: true},
-            "idle front": {"frames": [32]},
-            "idle back": {frames: [2]},
-            "walk side": {"frames": [21, 23], "speed": 0.1, next: true},
-            "walk front": {"frames":[26, 27, 22, 31], "speed": 0.1, next: true},
-            "walk back": {"frames":[24, 16, 29, 17], "speed": 0.1, next: true},
-            "slash side": {"frames":[10, 3, 0, 13], "speed": 0.1, next: false},
-            "slash front": {"frames": [31, 15, 14, 32], "speed": 0.1, next: false},
-            "slash back" : {"frames": [7, 11, 12, 2], "speed": 0.1, next: false},
-            "dead side" : {"frames": [28, 9], "speed": 0.1, next: false},
-            "dead front": {"frames": [6, 25], "speed": 0.1, next: false},
-            "dead back": {"frames": [7, 8], "speed": 0.1, next: false},
-            "dirtblock": {"frames": [1]},
-            "spider": {"frames": [4]},
-            "key": {"frames": [20]}            
+            "idle side": { "frames": [12, 23], "speed": 0.1, next: true},
+            "idle front": {"frames": [34]},
+            "idle back": {frames: [16]},
+            "walk side": {"frames": [25, 26], "speed": 0.1, next: true},
+            "walk front": {"frames":[31, 32, 28, 33], "speed": 0.1, next: true},
+            "walk back": {"frames":[19, 13, 24, 15], "speed": 0.1, next: true},
+            "slash side": {"frames":[7, 17, 22, 12], "speed": 0.1, next: false},
+            "slash front": {"frames": [20, 8, 9, 34], "speed": 0.1, next: false},
+            "slash back" : {"frames": [1, 2, 4, 16], "speed": 0.1, next: false},
+            "dead side" : {"frames": [29, 6], "speed": 0.1, next: false},
+            "dead front": {"frames": [20, 27], "speed": 0.1, next: false},
+            "dead back": {"frames": [14, 5], "speed": 0.1, next: false},
+            "dirtblock": {"frames": [3]},
+            "spider": {"frames": [11]},
+            "key": {"frames": [21]},
+            "oxygen": {"frames": [18]},
+            "coin": {"frames": [10]}            
                 }
    }
 

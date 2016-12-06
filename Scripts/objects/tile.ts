@@ -15,6 +15,10 @@ module objects {
             this.x = position.x;
             this.y = position.y;
         }
+
+         public getPosition() : objects.Vector2 {
+            return new objects.Vector2(this.x, this.y);
+        }
         }
 
     }

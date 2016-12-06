@@ -5,6 +5,7 @@ module objects {
         public _healthCount : number;
         private _keyChance : number;
         private _hasKey : boolean;
+        private _counter : number;
 
           constructor(imgString: string) {
             super(imgString);
@@ -13,10 +14,12 @@ module objects {
 
         public start() : void {
             this._healthCount = 3;
+            this._counter = 0;
         }
 
         public update() : void {
 
+            super.update();
         }
 
         public getHit() : void {
@@ -26,6 +29,10 @@ module objects {
           public setPosition(position : objects.Vector2) {
             this.x = position.x;
             this.y = position.y;
+        }
+
+         public getPosition() : objects.Vector2 {
+            return new objects.Vector2(this.x, this.y);
         }
 
         public setHasKey(hasKey : boolean) {

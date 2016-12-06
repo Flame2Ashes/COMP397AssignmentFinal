@@ -225,7 +225,6 @@
             </struct>
             <key type="filename">../../../../Downloads/ASU_17/1.png</key>
             <key type="filename">../../../../Downloads/ASU_17/2.png</key>
-            <key type="filename">../../../../Downloads/ASU_17/31.png</key>
             <key type="filename">../../../../Downloads/ASU_17/4.png</key>
             <key type="filename">../../../../Downloads/ASU_17/5.png</key>
             <struct type="IndividualSpriteSettings">
@@ -469,6 +468,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../../Downloads/ASU_17/bubble.png</key>
+            <key type="filename">../../../../Downloads/ASU_17/coin.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,12,23,24</rect>
+                <key>scale9Paddings</key>
+                <rect>11,12,23,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../../../../Downloads/ASU_17/key.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -479,6 +492,19 @@
                 <rect>6,5,13,10</rect>
                 <key>scale9Paddings</key>
                 <rect>6,5,13,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../../Downloads/ASU_17/treasure.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,16,40,33</rect>
+                <key>scale9Paddings</key>
+                <rect>20,16,40,33</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -511,13 +537,15 @@
             <filename>../../../../Downloads/ASU_17/27.png</filename>
             <filename>../../../../Downloads/ASU_17/28.png</filename>
             <filename>../../../../Downloads/ASU_17/29.png</filename>
-            <filename>../../../../Downloads/ASU_17/31.png</filename>
             <filename>../../../../Downloads/ASU_17/0.png</filename>
             <filename>../../../../Downloads/ASU_17/1.png</filename>
             <filename>../../../../Downloads/ASU_17/2.png</filename>
             <filename>../../../../Downloads/ASU_17/3.png</filename>
             <filename>dirtBlock.png</filename>
             <filename>../../../../Downloads/ASU_17/key.png</filename>
+            <filename>../../../../Downloads/ASU_17/treasure.png</filename>
+            <filename>../../../../Downloads/ASU_17/coin.png</filename>
+            <filename>../../../../Downloads/ASU_17/bubble.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -12,6 +12,7 @@ var config;
         Scene.INSTRUCTIONS = 3;
         Scene.GAMEOVERWIN = 4;
         Scene.PLAY2 = 5;
+        Scene.PLAY3 = 6;
         return Scene;
     }());
     config.Scene = Scene;

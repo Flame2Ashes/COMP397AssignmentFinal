@@ -14,8 +14,10 @@ var objects;
         }
         Spider.prototype.start = function () {
             this._healthCount = 3;
+            this._counter = 0;
         };
         Spider.prototype.update = function () {
+            _super.prototype.update.call(this);
         };
         Spider.prototype.getHit = function () {
             this._healthCount--;
@@ -23,6 +25,9 @@ var objects;
         Spider.prototype.setPosition = function (position) {
             this.x = position.x;
             this.y = position.y;
+        };
+        Spider.prototype.getPosition = function () {
+            return new objects.Vector2(this.x, this.y);
         };
         Spider.prototype.setHasKey = function (hasKey) {
             this._hasKey = hasKey;

@@ -17,6 +17,9 @@ var objects;
             this.x = position.x;
             this.y = position.y;
         };
+        Tile.prototype.getPosition = function () {
+            return new objects.Vector2(this.x, this.y);
+        };
         return Tile;
     }(objects.GameObject));
     objects.Tile = Tile;

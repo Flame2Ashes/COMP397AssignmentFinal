@@ -5,23 +5,23 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var objects;
 (function (objects) {
-    var Key = (function (_super) {
-        __extends(Key, _super);
-        function Key(imgString) {
+    var Air = (function (_super) {
+        __extends(Air, _super);
+        function Air(imgString) {
             _super.call(this, imgString);
             this.start();
         }
-        Key.prototype.update = function () {
+        Air.prototype.update = function () {
         };
-        Key.prototype.setPosition = function (position) {
+        Air.prototype.setPosition = function (position) {
             this.x = position.x;
             this.y = position.y;
         };
-        Key.prototype.getPosition = function () {
-            return new objects.Vector2(this.x, this.y);
+        Air.prototype.addAir = function () {
+            oxygen += 10;
         };
-        return Key;
+        return Air;
     }(objects.GameObject));
-    objects.Key = Key;
+    objects.Air = Air;
 })(objects || (objects = {}));
-//# sourceMappingURL=key.js.map
+//# sourceMappingURL=air.js.map

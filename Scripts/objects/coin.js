@@ -5,23 +5,23 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var objects;
 (function (objects) {
-    var Key = (function (_super) {
-        __extends(Key, _super);
-        function Key(imgString) {
+    var Coin = (function (_super) {
+        __extends(Coin, _super);
+        function Coin(imgString) {
             _super.call(this, imgString);
             this.start();
         }
-        Key.prototype.update = function () {
+        Coin.prototype.update = function () {
         };
-        Key.prototype.setPosition = function (position) {
+        Coin.prototype.setPosition = function (position) {
             this.x = position.x;
             this.y = position.y;
         };
-        Key.prototype.getPosition = function () {
-            return new objects.Vector2(this.x, this.y);
+        Coin.prototype.addPoints = function () {
+            score += 10;
         };
-        return Key;
+        return Coin;
     }(objects.GameObject));
-    objects.Key = Key;
+    objects.Coin = Coin;
 })(objects || (objects = {}));
-//# sourceMappingURL=key.js.map
+//# sourceMappingURL=coin.js.map
