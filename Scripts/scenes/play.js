@@ -1,3 +1,13 @@
+/*
+    File Name:             Scene Menu - TS|JS File
+    Author:                Angelina Gutierrez
+    Last Modified By:      Elaine Mae Villarino
+    Last Modified Date:    Tuesday, December 06th, 2016
+    Website Name:          COMP397 - Final Project
+    Program Description:   JS file that contains the components that
+                           are required to render the game's Menu scene.
+    Revision History:      Add label and comments
+*/
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -7,13 +17,22 @@ var scenes;
 (function (scenes) {
     var Play = (function (_super) {
         __extends(Play, _super);
+        // Game Class Contructor
         function Play() {
             _super.call(this);
             this._hasKey = false;
             this._scrollTrigger = 350;
         }
+        // PUBLIC FUNCTIONS
         Play.prototype.start = function () {
-            //    this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
+            // Add objects to the scene
+            // Start Game Music 
+            //createjs.Sound.stop();
+            //var bgAll = createjs.Sound.play("MUSE_Game");
+            //bgAll.play({ interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1, volume: 0.25 });
+            // Create BG for scene and add to Game Scene container
+            this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
+            this.addChild(this._bg);
             //    this._ground = new createjs.Bitmap(assets.getResult("floor"));
             this._scrollableObjContainer = new createjs.Container();
             this._player = new objects.Player("idle side");
@@ -26,9 +45,17 @@ var scenes;
             this._spider.setHasKey(true);
             this._spider.setPosition(new objects.Vector2(300, 300));
             this._key = new objects.Key("key");
-            //Create labels
-            this._lifeLabel = new objects.Label("Life: " + oxygen, "40px Arial", "#ffffff", config.Screen.CENTER_X - 300, 50);
-            //Create the level
+            // Add UI GOs to Scene
+            // -- Print LIFE Label to scene.
+            this._lifeLabel = new objects.Label("Life: " + oxygen, "Bold 22px Arial", "#FFF", config.Screen.CENTER_X - 165, 25);
+            this._lifeLabel.outline = 2;
+            // -- Print SCORE Label to scene.
+            this._scoreLabel = new objects.Label("Score: " + score, "Bold 22px Arial", "#FFF", config.Screen.CENTER_X, 25);
+            this._scoreLabel.outline = 2;
+            // -- Print KEY Label to scene.
+            this._keyLabel = new objects.Label("Key: Nope!", "Bold 22px Arial", "#FFF", config.Screen.CENTER_X + 150, 25);
+            this._keyLabel.outline = 2;
+            // Create the level
             for (var i = 0; i <= 10; i++) {
                 for (var j = 0; j <= 10; j++) {
                     var tile = new objects.Tile("dirtblock");
@@ -39,21 +66,25 @@ var scenes;
                     this._scrollableObjContainer.addChild(tile);
                 }
             }
-            //Scrollable Container. Make the thing scroll
-            //     this._scrollableObjContainer.addChild(this._bg);
+            // Scrollable Container. Make the thing scroll
+            //this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
             this._scrollableObjContainer.addChild(this._spider);
-            //      this._scrollableObjContainer.addChild(this._ground);
+            //this._scrollableObjContainer.addChild(this._ground);
             this.addChild(this._scrollableObjContainer);
-            //Add labels last
+            // Add labels last
             this.addChild(this._lifeLabel);
+            this.addChild(this._scoreLabel);
+            this.addChild(this._keyLabel);
+            // Start Listening for Player Keyboard Actions
             window.onkeydown = this._onKeyDown;
             window.onkeyup = this._onKeyUp;
-            //createjs.Sound.play("theme");
+            // Add game scene to global stage container
             stage.addChild(this);
         };
+        // Run on every tick
         Play.prototype.update = function () {
-            //Controls
+            // Controls
             if (controls.LEFT) {
                 this._player.moveLeft();
             }
@@ -95,6 +126,8 @@ var scenes;
                 this._scrollBGForward(this._player.position.x);
             }
         };
+        // PRIVATE METHODS
+        // -- Function for when PLAY/START button is pressed
         Play.prototype._onKeyDown = function (event) {
             switch (event.keyCode) {
                 case keys.W:
