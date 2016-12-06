@@ -23,7 +23,7 @@ var score = 0;
 // Preload Assets required
 var assetData:objects.Asset[] = [
     //Backgro1unds
-    {id: "Game_BG", src: "../../Assets/images/gamebg.png"},
+    {id: "Game_BG", src: "../../Assets/images/Game_BG.png"},
     {id: "Menu_BG", src: "../../Assets/images/Menu_BG.png"},
     {id: "Instructions_BG", src: "../../Assets/images/Instruction_BG.png"},
     //Buttons
