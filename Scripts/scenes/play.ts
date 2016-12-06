@@ -10,6 +10,9 @@ module scenes {
         private _lifeLabel: objects.Label;
         private _timeLabel: objects.Label;
         private _hasKey: boolean = false;
+        private _spider : objects.Spider;
+
+        private _key : objects.Key;
 
         //Arrays for objects
         private levelArray: objects.Tile[];
@@ -39,6 +42,11 @@ module scenes {
             this.levelArray = [];
 
 
+            this._spider = new objects.Spider("spider");
+            this._spider.setHasKey(true);
+            this._spider.setPosition(new objects.Vector2(300, 300));
+
+            this._key = new objects.Key("key");
 
             //Create labels
             this._lifeLabel = new objects.Label("Life: " + oxygen, "40px Arial", "#ffffff", config.Screen.CENTER_X - 300, 50);
@@ -60,6 +68,7 @@ module scenes {
 
             //     this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
+            this._scrollableObjContainer.addChild(this._spider);
             //      this._scrollableObjContainer.addChild(this._ground);
 
 
@@ -102,11 +111,25 @@ module scenes {
                     this._num = Math.floor(Math.random() * 100) + 1;
                     this.getBonus(this._num);
                 }
+                if (this.checkCollision(this._player, this._spider)) {
+                    this._spider.getHit();
+                    if (this._spider._healthCount <= 0) {
+                        this._key.setPosition(new objects.Vector2(this._spider.position.x, this._spider.position.y));
+                        this._scrollableObjContainer.removeChild(this._spider);
+                        this._scrollableObjContainer.addChild(this._key);
+                    }
+                }
 
             }
 
+                if (this.checkCollision(this._player, this._key)) {
+                    this._hasKey = true;
+                    this._scrollableObjContainer.removeChild(this._key);
+                }
 
 
+
+            //TODO
             if (this.checkCollision(this._player, this._dirtblock)) {
 
             }

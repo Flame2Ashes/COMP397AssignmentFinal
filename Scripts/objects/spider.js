@@ -19,10 +19,13 @@ var objects;
         };
         Spider.prototype.getHit = function () {
             this._healthCount--;
-            if (this._healthCount <= 0) {
-                if (this._hasKey) {
-                }
-            }
+        };
+        Spider.prototype.setPosition = function (position) {
+            this.x = position.x;
+            this.y = position.y;
+        };
+        Spider.prototype.setHasKey = function (hasKey) {
+            this._hasKey = hasKey;
         };
         return Spider;
     }(objects.GameObject));

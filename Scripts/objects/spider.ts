@@ -2,7 +2,7 @@ module objects {
     export class Spider extends objects.GameObject {
 
         private _isDead : boolean = false;
-        private _healthCount : number;
+        public _healthCount : number;
         private _keyChance : number;
         private _hasKey : boolean;
 
@@ -21,11 +21,15 @@ module objects {
 
         public getHit() : void {
             this._healthCount--;
-            if (this._healthCount <= 0) {
-                if (this._hasKey) {
-                    
-                }
-            }
+        }
+
+          public setPosition(position : objects.Vector2) {
+            this.x = position.x;
+            this.y = position.y;
+        }
+
+        public setHasKey(hasKey : boolean) {
+            this._hasKey = hasKey;
         }
 
 
