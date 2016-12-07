@@ -6,6 +6,7 @@ module objects {
         private _keyChance : number;
         private _hasKey : boolean;
         private _counter : number;
+        private _isIncreasing : boolean = false;
 
           constructor(imgString: string) {
             super(imgString);
@@ -18,7 +19,7 @@ module objects {
         }
 
         public update() : void {
-
+            
             super.update();
         }
 

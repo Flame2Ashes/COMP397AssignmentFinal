@@ -10,6 +10,7 @@ var objects;
         function Spider(imgString) {
             _super.call(this, imgString);
             this._isDead = false;
+            this._isIncreasing = false;
             this.start();
         }
         Spider.prototype.start = function () {

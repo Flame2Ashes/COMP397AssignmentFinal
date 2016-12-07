@@ -121,7 +121,8 @@ function init() {
             "spider": {"frames": [11]},
             "key": {"frames": [21]},
             "oxygen": {"frames": [18]},
-            "coin": {"frames": [10]}            
+            "coin": {"frames": [10]},
+            "treasure": {"frames": [0]}            
                 }
    }
 

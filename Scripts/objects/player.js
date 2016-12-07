@@ -49,7 +49,7 @@ var objects;
                 this.gotoAndPlay("walk side");
             }
             this._previousPositionX = this.position.x;
-            this.position.x -= 1;
+            this.position.x--;
         };
         Player.prototype.moveRight = function () {
             if (!this._isMoving) {
@@ -66,7 +66,7 @@ var objects;
                 this.gotoAndPlay("walk side");
             }
             this._previousPositionX = this.position.x;
-            this.position.x += 1;
+            this.position.x++;
         };
         //Works
         Player.prototype.moveUp = function () {
@@ -83,7 +83,7 @@ var objects;
                 this.gotoAndPlay("walk back");
             }
             this._previousPositionY = this.position.y;
-            this.position.y -= 1;
+            this.position.y--;
         };
         //Works
         Player.prototype.moveDown = function () {
@@ -100,7 +100,7 @@ var objects;
                 this.gotoAndPlay("walk front");
             }
             this._previousPositionY = this.position.y;
-            this.position.y += 1;
+            this.position.y++;
         };
         Player.prototype.idle = function () {
             if (!this._isIdle) {

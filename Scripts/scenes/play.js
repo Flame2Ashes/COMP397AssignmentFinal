@@ -1,12 +1,12 @@
 /*
     File Name:             Scene Menu - TS|JS File
     Author:                Angelina Gutierrez
-    Last Modified By:      Elaine Mae Villarino
+    Last Modified By:      Angelina Gutierrez
     Last Modified Date:    Tuesday, December 06th, 2016
     Website Name:          COMP397 - Final Project
     Program Description:   JS file that contains the components that
                            are required to render the game's Menu scene.
-    Revision History:      Add label and comments
+    Revision History:      Completed collision between blocks
 */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -45,6 +45,8 @@ var scenes;
             this._spider.setHasKey(true);
             this._spider.setPosition(new objects.Vector2(300, 300));
             this._key = new objects.Key("key");
+            this._treasure = new objects.Treasure("treasure");
+            this._treasure.setPosition(new objects.Vector2(250, 100));
             // Add UI GOs to Scene
             // -- Print LIFE Label to scene.
             this._lifeLabel = new objects.Label("Life: " + oxygen, "Bold 22px Arial", "#FFF", config.Screen.CENTER_X - 165, 25);
@@ -56,6 +58,8 @@ var scenes;
             this._keyLabel = new objects.Label("Key: Nope!", "Bold 22px Arial", "#FFF", config.Screen.CENTER_X + 150, 25);
             this._keyLabel.outline = 2;
             this.levelArray = [];
+            //Bury dat treasure (Place before level tiles)
+            this._scrollableObjContainer.addChild(this._treasure);
             // Create the level
             for (var i = 0; i <= 10; i++) {
                 this.levelArray[i] = [];
@@ -92,8 +96,12 @@ var scenes;
             this._scoreLabel.text = "Score: " + score;
             // Controls
             if (controls.LEFT) {
-                this._player.moveLeft();
-                this._digOffset = new objects.Vector2(-20, 0);
+                var arrayIndexX = Math.floor((this._player.x - (this._player.width / 2)) / 45);
+                var arrayIndexY = Math.floor(this._player.y / 45);
+                if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
+                    this._player.moveLeft();
+                    this._digOffset = new objects.Vector2(-20, 0);
+                }
             }
             if (controls.RIGHT) {
                 var arrayIndexX = Math.floor((this._player.x + (this._player.width / 2)) / 45);
@@ -108,12 +116,20 @@ var scenes;
                 }
             }
             if (controls.UP) {
-                this._player.moveUp();
-                this._digOffset = new objects.Vector2(0, -20);
+                var arrayIndexX = Math.floor((this._player.x / 45));
+                var arrayIndexY = Math.floor((this._player.y - (this._player.height / 2)) / 45);
+                if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
+                    this._player.moveUp();
+                    this._digOffset = new objects.Vector2(0, -20);
+                }
             }
             if (controls.DOWN) {
-                this._player.moveDown();
-                this._digOffset = new objects.Vector2(0, 20);
+                var arrayIndexX = Math.floor((this._player.x / 45));
+                var arrayIndexY = Math.floor((this._player.y + (this._player.height / 2)) / 45);
+                if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
+                    this._player.moveDown();
+                    this._digOffset = new objects.Vector2(0, 20);
+                }
             }
             if (controls.DIG) {
                 this._player.dig();
@@ -124,6 +140,15 @@ var scenes;
                 console.log("PLS REMOVE");
                 this._scrollableObjContainer.removeChild(this.levelArray[x][y]);
                 this.levelArray[x][y] = null;
+                this._num = Math.floor(Math.random() * 100) + 1;
+                if (this._num == 1) {
+                    console.log("Coin");
+                    score += 100;
+                }
+                if (this._num == 100) {
+                    console.log("Oxygen");
+                    oxygen += 10;
+                }
                 /*for (let i in this.levelArray)
                     if (this.checkCollision(this._player, this.levelArray[i])) {
                         this._scrollableObjContainer.removeChild(this.levelArray[i]);
@@ -153,26 +178,21 @@ var scenes;
                     }
                 }
             }
-            if (this._air != null && this.checkCollision(this._player, this._air)) {
-                oxygen += 10;
-                this._scrollableObjContainer.removeChild(this._air);
-                this._air = null;
-            }
-            if (this._coin != null && this.checkCollision(this._player, this._coin)) {
-                score += 100;
-                this._scrollableObjContainer.removeChild(this._coin);
-                this._coin = null;
-            }
-            if (this.checkCollision(this._player, this._key)) {
+            if (this._key != null && this.checkCollision(this._player, this._key)) {
                 score = score + 500;
                 console.log(score);
                 this._hasKey = true;
                 this._scrollableObjContainer.removeChild(this._key);
-                //this._keyLabel.text = "Key: Found!"
-                //Go to next level
+                this._key = null;
+                this._keyLabel.text = "Key: Found!";
+            }
+            if (this.checkCollision(this._player, this._treasure) && this._hasKey) {
                 oxygen = 50;
                 scene = config.Scene.PLAY2;
                 changeScene();
+            }
+            else if (this.checkCollision(this._player, this._treasure) && !this._hasKey) {
+                console.log("Meh");
             }
             //
             if (oxygen <= 0) {
@@ -230,6 +250,9 @@ var scenes;
         Play.prototype._scrollBGForward = function (speed) {
             if (this._scrollableObjContainer.regX < config.Screen.WIDTH)
                 this._scrollableObjContainer.regX = speed - 300;
+            else {
+                this._scrollableObjContainer.regX = speed + 300;
+            }
         };
         Play.prototype.checkScroll = function () {
             if (this._player.x >= this._scrollTrigger) {

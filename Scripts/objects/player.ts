@@ -55,7 +55,7 @@ module objects {
                 
             }
             this._previousPositionX = this.position.x;
-            this.position.x -= 1;
+            this.position.x--;
         }
         public moveRight(): void {
             if (!this._isMoving) {
@@ -72,7 +72,7 @@ module objects {
                 this.gotoAndPlay("walk side");
             }
             this._previousPositionX = this.position.x;
-            this.position.x += 1;
+            this.position.x++;
 
         }
 
@@ -92,7 +92,7 @@ module objects {
                 this.gotoAndPlay("walk back");
             }
             this._previousPositionY = this.position.y;
-            this.position.y -= 1;
+            this.position.y--;
         }
 
         //Works
@@ -111,7 +111,7 @@ module objects {
                 this.gotoAndPlay("walk front");
             }
             this._previousPositionY = this.position.y;
-            this.position.y += 1;
+            this.position.y++;
 
         }
 
