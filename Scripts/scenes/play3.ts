@@ -2,11 +2,11 @@
 	File Name:             Scene Play3 - TS|JS File 
 	Author:                Angelina Gutierrez
     Last Modified By:      Angelina Gutierrez
-	Last Modified Date:    Tuesday, December 06th, 2016
+	Last Modified Date:    Thursday, December 08th, 2016
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's third level.
-    Revision History:      
+    Revision History:      Add music and sound effects
 */
 
 module scenes {
@@ -195,14 +195,22 @@ module scenes {
                 console.log("PLS REMOVE");
                 this._scrollableObjContainer.removeChild(this.levelArray[x][y]);
                 this.levelArray[x][y] = null;
-                  if (this._num == 1) {
-                      console.log("Coin");
-                      score += 100;
-                  }
-                  if (this._num == 100) {
-                      console.log("Oxygen");
-                      oxygen += 10;
-                  }
+                if (this._num == 1) {
+                    // Add and Play Coin Sound Effect
+                    var fxCoin = createjs.Sound.play("FX_COIN");
+                    fxCoin.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
+
+                    console.log("Coin");
+                    score += 100;
+                }
+                if (this._num == 100) {
+                    // Add and Play Oxygen Sound Effect
+                    var fxOxygen = createjs.Sound.play("FX_OXYGEN");
+                    fxOxygen.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 2, volume: 1 });
+                    
+                    console.log("Oxygen");
+                    oxygen += 10;
+                }
                 /*for (let i in this.levelArray)
                     if (this.checkCollision(this._player, this.levelArray[i])) {
                         this._scrollableObjContainer.removeChild(this.levelArray[i]);
@@ -224,6 +232,10 @@ module scenes {
                         
                     }*/
                 if (this.checkCollision(this._player, this._spider)) {
+                    // Add and Play Spider Sound Effect
+                    var fxSpider = createjs.Sound.play("FX_SPIDER");
+                    fxSpider.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
+                    
                     this._spider.getHit();
                     if (this._spider._healthCount <= 0) {
                         this._key.setPosition(this._spider.getPosition());
@@ -233,7 +245,7 @@ module scenes {
                     }
                 }
             }
-        
+
 
             if (this._air != null && this.checkCollision(this._player, this._air)) {
                 oxygen += 10;
@@ -250,6 +262,10 @@ module scenes {
 
 
             if (this._key != null && this.checkCollision(this._player, this._key)) {
+                // Add and Play Key Sound Effect
+                var fxKeys = createjs.Sound.play("FX_KEYS");
+                fxKeys.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
+
                 score = score + 500;
                 console.log(score);
                 this._hasKey = true;
@@ -258,15 +274,18 @@ module scenes {
                 this._keyLabel.text = "Key: Found!"
                 //Go to next level
             }
-                if (this.checkCollision(this._player, this._treasure) && this._hasKey) {
+            if (this.checkCollision(this._player, this._treasure) && this._hasKey) {
+                // Add and Play Chest Sound Effect
+                var fxChest = createjs.Sound.play("FX_CHEST");
+                fxChest.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
 
-                    oxygen = 50;
-                    scene = config.Scene.PLAY2;
-                    changeScene();
-                }
-                else if (this.checkCollision(this._player, this._treasure) && !this._hasKey) {
-                    console.log("Meh");
-                }
+                oxygen = 50;
+                scene = config.Scene.PLAY2;
+                changeScene();
+            }
+            else if (this.checkCollision(this._player, this._treasure) && !this._hasKey) {
+                console.log("Meh");
+            }
 
             //
             if (oxygen <= 0) {

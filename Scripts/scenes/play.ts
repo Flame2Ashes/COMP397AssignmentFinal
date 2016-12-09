@@ -2,11 +2,11 @@
 	File Name:             Scene Menu - TS|JS File 
 	Author:                Angelina Gutierrez
     Last Modified By:      Angelina Gutierrez
-	Last Modified Date:    Tuesday, December 06th, 2016
+	Last Modified Date:    Thursday, December 08th, 2016
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's Menu scene.
-    Revision History:      Completed collision between blocks
+    Revision History:      Add music and sound effects
 */
 
 module scenes {
@@ -54,11 +54,6 @@ module scenes {
         // PUBLIC FUNCTIONS
         public start(): void {
             // Add objects to the scene
-
-            // Start Game Music 
-            //createjs.Sound.stop();
-            //var bgAll = createjs.Sound.play("MUSE_Game");
-            //bgAll.play({ interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1, volume: 0.25 });
 
             // Create BG for scene and add to Game Scene container
             this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
@@ -192,19 +187,27 @@ module scenes {
                 var y = Math.floor((this._player.y + this._digOffset.y) / 45);
                 console.log("tile at index is " + [x][y]);
                 var tile = this.levelArray[x][y];
-                
+
                 console.log("PLS REMOVE");
                 this._scrollableObjContainer.removeChild(this.levelArray[x][y]);
                 this.levelArray[x][y] = null;
-                  this._num = Math.floor(Math.random() * 100) + 1;
-                  if (this._num == 1) {
-                      console.log("Coin");
-                      score += 100;
-                  }
-                  if (this._num == 100) {
-                      console.log("Oxygen");
-                      oxygen += 10;
-                  }
+                this._num = Math.floor(Math.random() * 100) + 1;
+                if (this._num == 1) {
+                    // Add and Play Coin Sound Effect
+                    var fxCoin = createjs.Sound.play("FX_COIN");
+                    fxCoin.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
+
+                    console.log("Coin");
+                    score += 100;
+                }
+                if (this._num == 100) {
+                    // Add and Play Oxygen Sound Effect
+                    var fxOxygen = createjs.Sound.play("FX_OXYGEN");
+                    fxOxygen.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 2, volume: 1 });
+                    
+                    console.log("Oxygen");
+                    oxygen += 10;
+                }
                 /*for (let i in this.levelArray)
                     if (this.checkCollision(this._player, this.levelArray[i])) {
                         this._scrollableObjContainer.removeChild(this.levelArray[i]);
@@ -226,6 +229,10 @@ module scenes {
                         
                     }*/
                 if (this.checkCollision(this._player, this._spider)) {
+                    // Add and Play Spider Sound Effect
+                    var fxSpider = createjs.Sound.play("FX_SPIDER");
+                    fxSpider.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
+                    
                     this._spider.getHit();
                     if (this._spider._healthCount <= 0) {
                         this._key.setPosition(this._spider.getPosition());
@@ -238,23 +245,31 @@ module scenes {
 
 
             if (this._key != null && this.checkCollision(this._player, this._key)) {
+                // Add and Play Key Sound Effect
+                var fxKeys = createjs.Sound.play("FX_KEYS");
+                fxKeys.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
+
                 score = score + 500;
                 console.log(score);
                 this._hasKey = true;
                 this._scrollableObjContainer.removeChild(this._key);
                 this._key = null;
                 this._keyLabel.text = "Key: Found!"
-                //Go to next level
-            }
-                if (this.checkCollision(this._player, this._treasure) && this._hasKey) {
 
-                    oxygen = 50;
-                    scene = config.Scene.PLAY2;
-                    changeScene();
-                }
-                else if (this.checkCollision(this._player, this._treasure) && !this._hasKey) {
-                    console.log("Meh");
-                }
+            }
+            if (this.checkCollision(this._player, this._treasure) && this._hasKey) {
+                // Add and Play Chest Sound Effect
+                var fxChest = createjs.Sound.play("FX_CHEST");
+                fxChest.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
+
+                //Go to next level
+                oxygen = 50;
+                scene = config.Scene.PLAY2;
+                changeScene();
+            }
+            else if (this.checkCollision(this._player, this._treasure) && !this._hasKey) {
+                console.log("Meh");
+            }
 
             //
             if (oxygen <= 0) {
@@ -321,9 +336,9 @@ module scenes {
         private _scrollBGForward(speed: number): void {
             if (this._scrollableObjContainer.regX < config.Screen.WIDTH)
                 this._scrollableObjContainer.regX = speed - 300;
-                else {
-                    this._scrollableObjContainer.regX = speed + 300;
-                }
+            else {
+                this._scrollableObjContainer.regX = speed + 300;
+            }
         }
 
         private checkScroll(): boolean {

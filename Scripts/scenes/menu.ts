@@ -6,7 +6,7 @@
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's Menu scene.
-    Revision History:      Actually implement Menu scene
+    Revision History:      Add music
 */
 
 module scenes {
@@ -27,6 +27,11 @@ module scenes {
             // Add objects to the scene
             console.log("Menu Scene Started");
 
+            // Add and Play Intro Music
+            createjs.Sound.stop();
+            var bgStart = createjs.Sound.play("MUSE_GAME");
+            bgStart.play({ interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1, volume: 0.50 });
+            
             // Create BG for scene and add to Game Scene container
             this._menuBG = new createjs.Bitmap(assets.getResult("Menu_BG"));
             this._menuBG.alpha = 0.85;

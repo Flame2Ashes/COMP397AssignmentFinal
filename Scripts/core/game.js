@@ -1,7 +1,14 @@
 /// <reference path = "_reference.ts" />
-//Filename: game.ts CORE
-//Author: Angelina Gutierrez
-//Date modified: November 20th, 2016
+/*
+    File Name:             Core Game - TS|JS File
+    Author:                Angelina Gutierrez
+    Last Modified By:      Elaine Mae Villarino
+    Last Modified Date:    Thursday, December 08th, 2016
+    Website Name:          COMP397 - Final Project
+    Program Description:   JS file that contains the components that
+                           are required to render the game's Core game.
+    Revision History:      Add Music and Sound Effects
+*/
 // Global Variables
 var assets;
 var canvas;
@@ -14,7 +21,16 @@ var oxygen = 100;
 var score = 0;
 // Preload Assets required
 var assetData = [
-    //Backgro1unds
+    //Music
+    { id: "MUSE_GAME", src: "../../Assets/audio/KagerouDays.mp3" },
+    { id: "MUSE_LOSE", src: "../../Assets/audio/DonutHole.mp3" },
+    { id: "FX_WIN", src: "../../Assets/audio/Melt.mp3" },
+    { id: "FX_COIN", src: "../../Assets/audio/Coins.mp3" },
+    { id: "FX_OXYGEN", src: "../../Assets/audio/Swoosh.mp3" },
+    { id: "FX_KEYS", src: "../../Assets/audio/Keys.mp3" },
+    { id: "FX_SPIDER", src: "../../Assets/audio/Spider.mp3" },
+    { id: "FX_CHEST", src: "../../Assets/audio/ChestOpen.mp3" },
+    //Backgrounds
     { id: "Game_BG", src: "../../Assets/images/Game_BG.png" },
     { id: "Menu_BG", src: "../../Assets/images/Menu_BG.png" },
     { id: "Instructions_BG", src: "../../Assets/images/Instruction_BG.png" },
@@ -27,12 +43,12 @@ var assetData = [
     //TODO: Import Atlas Data
     { id: "ratAtlas", src: "../../Assets/images/ratAtlas.png" },
     //Other
-    { id: "floor", src: "../../Assets/images/ground.png" },
+    { id: "floor", src: "../../Assets/images/ground.png" }
 ];
 function preload() {
     // Create a queue for assets being loaded
     assets = new createjs.LoadQueue(false);
-    // assets.installPlugin(createjs.Sound);
+    assets.installPlugin(createjs.Sound);
     // Register callback function to be run when assets complete loading.
     assets.on("complete", init, this);
     assets.loadManifest(assetData);
@@ -110,6 +126,10 @@ function init() {
     };
     //Assign to ratAtlas
     ratAtlas = new createjs.SpriteSheet(atlasData);
+    // Add and Play Intro Music
+    createjs.Sound.stop();
+    var bgStart = createjs.Sound.play("MUSE_GAME");
+    bgStart.play({ interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1, volume: 1 });
     scene = config.Scene.MENU;
     changeScene();
 }
