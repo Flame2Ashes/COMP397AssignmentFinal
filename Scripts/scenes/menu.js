@@ -2,11 +2,11 @@
     File Name:             Scene Menu - TS|JS File
     Author:                Angelina Gutierrez
     Last Modified By:      Elaine Mae Villarino
-    Last Modified Date:    Tuesday, December 06th, 2016
+    Last Modified Date:    Friday, December 09th, 2016
     Website Name:          COMP397 - Final Project
     Program Description:   JS file that contains the components that
                            are required to render the game's Menu scene.
-    Revision History:      Add music
+    Revision History:      Add full screen toggle
 */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -52,6 +52,8 @@ var scenes;
         // PRIVATE METHODS
         // -- Function for when PLAY/START button is pressed
         Menu.prototype._startButtonClick = function (event) {
+            // Toggle Full Screen            
+            checkFullScreen();
             // Change global scene variable to PLAY. Call global changeScene() function
             oxygen = 100;
             scene = config.Scene.PLAY;

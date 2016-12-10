@@ -4,11 +4,11 @@
 	File Name:             Core Game - TS|JS File 
 	Author:                Angelina Gutierrez
     Last Modified By:      Elaine Mae Villarino 
-	Last Modified Date:    Thursday, December 08th, 2016
+	Last Modified Date:    Friday, December 09th, 2016
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's Core game.
-    Revision History:      Add Music and Sound Effects
+    Revision History:      Add Full Screen
 */
 
 // Global Variables
@@ -197,5 +197,47 @@ function changeScene(): void {
             console.log("Starting second level");
             break;
     }
-
 }
+
+// Full Screen Error Event handler
+function errorHandler() {
+    alert('mozfullscreenerror');
+}
+document.documentElement.addEventListener('mozfullscreenerror', errorHandler, false);
+
+// Toggle Full Screen
+function toggleFullScreen() {
+    if (!document.fullscreenElement &&    // alternative standard method
+        !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+    } else {
+        if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        }
+    }
+}
+function checkFullScreen() {
+    if ((window.fullScreen) || (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
+        console.log("Yes");
+
+    } else {
+        console.log("No");
+        toggleFullScreen();
+    }
+}
+// keydown event handler
+document.addEventListener('keydown', function (e) {
+    if (e.keyCode == 70) { // F key
+        toggleFullScreen();
+    }
+}, false);
