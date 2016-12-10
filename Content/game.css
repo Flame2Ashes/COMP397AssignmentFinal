@@ -11,8 +11,24 @@
 /*=================================================
 			1. Common Variables
 ==================================================*/
+html {
+    background-color: darkgrey;	
+	background-image: url("../Assets/images/pixel_weave-1.png");
+    background-repeat: repeat;
+}
+
 body {
     background-color: darkgrey;
+	background-image: url("../Assets/images/pixel_weave-1.png");
+    background-repeat: repeat;
+}
+
+.page-header{
+	font-weight: bold;
+	color: white;
+    -webkit-text-fill-color: black;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #bd8e5c;
 }
 
 .game {
