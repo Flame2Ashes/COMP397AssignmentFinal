@@ -3,11 +3,11 @@
     File Name:             Core Game - TS|JS File
     Author:                Angelina Gutierrez
     Last Modified By:      Elaine Mae Villarino
-    Last Modified Date:    Friday, December 09th, 2016
+    Last Modified Date:    Saturday, December 10th, 2016
     Website Name:          COMP397 - Final Project
     Program Description:   JS file that contains the components that
                            are required to render the game's Core game.
-    Revision History:      Add Full Screen
+    Revision History:      Add HighScoring via LocalStorage
 */
 // Global Variables
 var assets;
@@ -19,6 +19,10 @@ var currentScene;
 var scene;
 var oxygen = 100;
 var score = 0;
+var levelReached = "";
+var levelLooped = 0;
+var collectedCoin = 0;
+var collectedOxygen = 0;
 // Preload Assets required
 var assetData = [
     //Music
@@ -174,6 +178,11 @@ function changeScene() {
             break;
     }
 }
+/**
+ *
+ * FULL SCREEN MAGIC
+ *
+ * */
 // Full Screen Error Event handler
 function errorHandler() {
     alert('mozfullscreenerror');
@@ -205,6 +214,7 @@ function toggleFullScreen() {
         }
     }
 }
+// Check if browser is already in full screen
 function checkFullScreen() {
     if ((window.fullScreen) || (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
         console.log("Yes");
@@ -214,10 +224,36 @@ function checkFullScreen() {
         toggleFullScreen();
     }
 }
-// keydown event handler
+// Add bonus Keydown Event Handler
 document.addEventListener('keydown', function (e) {
+    // Toggle Full Screen with F Key
     if (e.keyCode == 70) {
-        toggleFullScreen();
+        checkFullScreen();
     }
 }, false);
+/**
+ *
+ * HIGH SCORING MAGIC
+ *
+ * */
+// Check for Local Storage
+function isLocalStorageWorking() {
+    try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+    }
+    catch (e) {
+        return false;
+    }
+}
+// Show if localStorage works 
+if (isLocalStorageWorking()) {
+    // Working = YES
+    document.getElementById("localStorageCheck").style.color = "#00FF00";
+}
+else {
+    // Working = NO 
+    document.getElementById("localStorageCheck").style.color = "#FF0000";
+    // So Create Fake localStorage var to not Throw Error
+    localStorage = [];
+}
 //# sourceMappingURL=game.js.map
