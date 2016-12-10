@@ -7,7 +7,7 @@
     Website Name:          COMP397 - Final Project
     Program Description:   JS file that contains the components that
                            are required to render the game's Core game.
-    Revision History:      Add HighScoring via LocalStorage
+    Revision History:      Add Play3 Scene
 */
 // Global Variables
 var assets;
@@ -151,30 +151,35 @@ function changeScene() {
             ;
             console.log("Starting MENU scene");
             break;
-        case config.Scene.PLAY:
-            stage.removeAllChildren();
-            currentScene = new scenes.Play();
-            console.log("Starting GAME scene");
-            break;
         case config.Scene.INSTRUCTIONS:
             stage.removeAllChildren();
             currentScene = new scenes.Instructions();
             console.log("Starting INSTRUCTIONS scene");
             break;
-        case config.Scene.GAMEOVER:
+        case config.Scene.PLAY:
             stage.removeAllChildren();
-            currentScene = new scenes.Gameover();
-            console.log("Starting GAMEOVER scene");
-            break;
-        case config.Scene.GAMEOVERWIN:
-            stage.removeAllChildren();
-            currentScene = new scenes.Gameoverwin();
-            console.log("Starting GAMEOVERWIN scene");
+            currentScene = new scenes.Play();
+            console.log("Starting GAME scene");
             break;
         case config.Scene.PLAY2:
             stage.removeAllChildren();
             currentScene = new scenes.Play2();
             console.log("Starting second level");
+            break;
+        case config.Scene.PLAY3:
+            stage.removeAllChildren();
+            currentScene = new scenes.Play3();
+            console.log("Starting third level");
+            break;
+        case config.Scene.GAMEOVER:
+            stage.removeAllChildren();
+            currentScene = new scenes.Gameover();
+            console.log("Starting GAMEOVERLOSE scene");
+            break;
+        case config.Scene.GAMEOVERWIN:
+            stage.removeAllChildren();
+            currentScene = new scenes.Gameoverwin();
+            console.log("Starting GAMEOVERWIN scene");
             break;
     }
 }
