@@ -1,9 +1,22 @@
+/*
+	File Name:             Game - CSS File 
+	Author:                Elaine Mae Villarino 
+	Last Modified By:      Elaine Mae Villarino
+	Last Modified Date:    Friday, December 09th, 2016
+	Website Name:          COMP397 - Final Project
+	Program Description:   CSS file that contains the styles that render the whole 
+						   COMP397 - Final Project site which is the Dig Rat Game.
+*/
+
+/*=================================================
+			1. Common Variables
+==================================================*/
 body {
     background-color: darkgrey;
 }
 
 .game {
-    width : 80%;
+    width : 50%;
     margin: 0 auto;
 }
 
@@ -14,3 +27,11 @@ canvas {
     background-color: white;
     margin-left: 10%;
 }
+
+/*=================================================
+			2. Footer - NOT USED CURRENTLY
+==================================================*/
+
+/*=================================================
+			3. @Media Variables - NOT USED CURRENTLY
+==================================================*/

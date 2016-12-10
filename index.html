@@ -1,28 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset ="uft-8" />
-    <meta name = "viewport" content = "width = device-width, initial-scale=1" />
-    <tite>COMP397 Assignment 3</tite>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="COMP397 Final Project - Dig Rat">
+    <meta name="author" content="Angelina Gutierrez, Elaine Mae Villarino">
+    <link rel="icon" href="Assets/images/favicon.png">
+    <title>AGEV - COMP397 Final Project - Dig Rat</title>
+
     <!-- CSS Section -->
     <link rel="stylesheet" href="Content/reset.css">
     <link rel="stylesheet" href="Content/game.css">
+    <link rel="stylesheet" type="text/css" href="Content/bootstrap.min.css">
 </head>
+
 <body onload="preload()">
-    <div class="game">
-        <canvas id="canvas" width="500" height="350"></canvas>
+    <nav class="navbar navbar-dark bg-inverse">
+        <div class="container">
+            <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#navbar-header" aria-controls="navbar-header">
+					&#9776;
+				</button>
+            <div class="collapse navbar-toggleable-xs" id="navbar-header">
+                <a class="navbar-brand" href="agev-comp397assignmentfinal.azurewebsites.net">Dig Rat</a>
+                <!-- Single button -->
+                <div class="btn-group">
+                    <button id="dropdownMenu1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+							Authors
+						</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <p class="dropdown-item">Angelina Gutierrez</p>
+                        <p class="dropdown-item">Elaine Mae Villarino</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /container -->
+    </nav>
+    <!-- /navbar -->
+
+    <div class="container">
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <p id="introduction"></p>
+                <h1 class="page-header">Final Project - Dig Rat
+                </h1>
+                <hr>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <!-- Game Row -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="game">
+                    <!-- Declare Game Canvas -->
+                    <canvas id="canvas" width="500" height="350"></canvas>
+                    <p id="localStorageCheck">Local Storage Support</p>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
     </div>
+    <!-- END Declare Game Canvas -->
+
     <script src="Scripts/config/config.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <!-- JavaScript Libraries -->
+    <script src="Scripts/lib/bootstrap.min.js"></script>
     <script src="Scripts/lib/easeljs-0.8.2.min.js"></script>
     <script src="Scripts/lib/preloadjs-0.6.2.min.js"></script>
     <script src="Scripts/lib/soundjs-0.6.2.min.js"></script>
     <script src="Scripts/lib/tweenjs-0.6.2.min.js"></script>
 
     <!--Game Scripts-->
-    
-
     <script src="Scripts/objects/gameobject.js"></script>
     <script src="Scripts/objects/asset.js"></script>
     <script src="Scripts/objects/label.js"></script>
@@ -38,10 +93,8 @@
     <script src="Scripts/objects/treasure.js"></script>
 
     <!-- Config scripts-->
-
     <script src="Scripts/config/controls.js"></script>
     <script src="Scripts/config/keys.js"></script>
-    
 
     <!-- Scene Scripts -->
     <script src="Scripts/scenes/menu.js"></script>
@@ -51,8 +104,7 @@
     <script src="Scripts/scenes/instructions.js"></script>
     <script src="Scripts/scenes/gameover.js"></script>
     <script src="Scripts/scenes/gameoverwin.js"></script>
-
-
     <script src="Scripts/core/game.js"></script>
 </body>
+
 </html>
