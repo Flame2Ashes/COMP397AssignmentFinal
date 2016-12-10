@@ -6,7 +6,7 @@
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's second level.
-    Revision History:      Add Stat factors: Coin and Oxygen
+    Revision History:      Added Decoy Spiders
 */
 
 module scenes {
@@ -26,7 +26,10 @@ module scenes {
         private _keyLabel: objects.Label;
         private _hasKey: boolean = false;
         private _spider: objects.Spider;
-        private _spider2: objects.Spider;
+
+        private _spiderArr: objects.Spider[];
+        private _spiderCount: number;
+
         private _air: objects.Air;
         private _coin: objects.Coin;
         private _treasure: objects.Treasure;
@@ -79,12 +82,8 @@ module scenes {
 
 
             this._spider = new objects.Spider("spider");
-            this._spider.setHasKey(false);
-            this._spider.setPosition(new objects.Vector2(300, 300));
-
-            this._spider2 = new objects.Spider("spider");
             this._spider.setHasKey(true);
-            this._spider.setPosition(new objects.Vector2(700, 200));
+            this._spider.setPosition(new objects.Vector2(300, 300));
 
             this._key = new objects.Key("key");
             this._treasure = new objects.Treasure("treasure");
@@ -118,6 +117,17 @@ module scenes {
                     console.log("tile at index " + i + ", " + j + " is " + this.levelArray[i][j]);
                     this._scrollableObjContainer.addChild(this.levelArray[i][j]);
                 }
+            }
+
+            // Instantiate Spiders
+            // -- Spiders array
+            this._spiderCount = 10;
+            this._spiderArr = new Array<objects.Spider>();
+            for (var spider: number = 0; spider < this._spiderCount; spider++) {
+                this._spiderArr[spider] = new objects.Spider("spider");
+                this._spiderArr[spider].setHasKey(false);
+                this._spiderArr[spider].setPosition(new objects.Vector2(Math.floor(Math.random() * 700) + 50, Math.floor(Math.random() * 325) + 50));
+                this._scrollableObjContainer.addChild(this._spiderArr[spider]);
             }
 
             // Scrollable Container. Make the thing scroll
@@ -213,7 +223,7 @@ module scenes {
                     // Add and Play Oxygen Sound Effect
                     var fxOxygen = createjs.Sound.play("FX_OXYGEN");
                     fxOxygen.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 2, volume: 1 });
-                    
+
                     console.log("Oxygen");
                     oxygen += 10;
                     collectedOxygen++;
@@ -242,13 +252,27 @@ module scenes {
                     // Add and Play Spider Sound Effect
                     var fxSpider = createjs.Sound.play("FX_SPIDER");
                     fxSpider.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
-                    
+
                     this._spider.getHit();
                     if (this._spider._healthCount <= 0) {
                         this._key.setPosition(this._spider.getPosition());
                         this._scrollableObjContainer.removeChild(this._spider);
                         this._scrollableObjContainer.addChild(this._key);
 
+                    }
+                }
+                // DECOY SPIDERS
+                for (var spider: number = 0; spider < this._spiderCount; spider++) {
+                    if (this.checkCollision(this._player, this._spiderArr[spider])) {
+                        // Add and Play Spider Sound Effect
+                        var fxSpider = createjs.Sound.play("FX_SPIDER");
+                        fxSpider.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
+                        console.log("HIT");
+
+                        this._spiderArr[spider].getHit();
+                        if (this._spiderArr[spider]._healthCount <= 0) {
+                            this._scrollableObjContainer.removeChild(this._spiderArr[spider]);
+                        }
                     }
                 }
             }
@@ -287,7 +311,7 @@ module scenes {
                 fxChest.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
 
                 oxygen = 50;
-                scene = config.Scene.PLAY2;
+                scene = config.Scene.PLAY3;
                 changeScene();
             }
             else if (this.checkCollision(this._player, this._treasure) && !this._hasKey) {

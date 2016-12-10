@@ -6,7 +6,7 @@
     Website Name:          COMP397 - Final Project
     Program Description:   JS file that contains the components that
                            are required to render the game's third level.
-    Revision History:      Add Stat factors: Coin and Oxygen
+    Revision History:      Added Decoy Spiders
 */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -43,7 +43,7 @@ var scenes;
             this._player.setPosition(new objects.Vector2(100, 200));
             this._spider = new objects.Spider("spider");
             this._spider.setHasKey(true);
-            this._spider.setPosition(new objects.Vector2(100, 350));
+            this._spider.setPosition(new objects.Vector2(300, 300));
             this._key = new objects.Key("key");
             this._treasure = new objects.Treasure("treasure");
             this._treasure.setPosition(new objects.Vector2(800, 245));
@@ -72,6 +72,16 @@ var scenes;
                     console.log("tile at index " + i + ", " + j + " is " + this.levelArray[i][j]);
                     this._scrollableObjContainer.addChild(this.levelArray[i][j]);
                 }
+            }
+            // Instantiate Spiders
+            // -- Spiders array
+            this._spiderCount = 15;
+            this._spiderArr = new Array();
+            for (var spider = 0; spider < this._spiderCount; spider++) {
+                this._spiderArr[spider] = new objects.Spider("spider");
+                this._spiderArr[spider].setHasKey(false);
+                this._spiderArr[spider].setPosition(new objects.Vector2(Math.floor(Math.random() * 700) + 50, Math.floor(Math.random() * 325) + 50));
+                this._scrollableObjContainer.addChild(this._spiderArr[spider]);
             }
             // Scrollable Container. Make the thing scroll
             //this._scrollableObjContainer.addChild(this._bg);
@@ -185,6 +195,19 @@ var scenes;
                         this._key.setPosition(this._spider.getPosition());
                         this._scrollableObjContainer.removeChild(this._spider);
                         this._scrollableObjContainer.addChild(this._key);
+                    }
+                }
+                // DECOY SPIDERS
+                for (var spider = 0; spider < this._spiderCount; spider++) {
+                    if (this.checkCollision(this._player, this._spiderArr[spider])) {
+                        // Add and Play Spider Sound Effect
+                        var fxSpider = createjs.Sound.play("FX_SPIDER");
+                        fxSpider.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
+                        console.log("HIT");
+                        this._spiderArr[spider].getHit();
+                        if (this._spiderArr[spider]._healthCount <= 0) {
+                            this._scrollableObjContainer.removeChild(this._spiderArr[spider]);
+                        }
                     }
                 }
             }
