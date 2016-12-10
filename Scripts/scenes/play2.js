@@ -1,12 +1,12 @@
 /*
-    File Name:             Scene Menu - TS|JS File
+    File Name:             Scene Play 2 - TS|JS File
     Author:                Angelina Gutierrez
-    Last Modified By:      Angelina Gutierrez
-    Last Modified Date:    Thursday, December 08th, 2016
+    Last Modified By:      Elaine Mae Villarino
+    Last Modified Date:    Saturday, December 10th, 2016
     Website Name:          COMP397 - Final Project
     Program Description:   JS file that contains the components that
                            are required to render the game's second level.
-    Revision History:      Add music and sound effects
+    Revision History:      Add Stat factors: Coin and Oxygen
 */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -149,6 +149,7 @@ var scenes;
                     fxCoin.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
                     console.log("Coin");
                     score += 100;
+                    collectedCoin++;
                 }
                 if (this._num == 100) {
                     // Add and Play Oxygen Sound Effect
@@ -156,6 +157,7 @@ var scenes;
                     fxOxygen.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 2, volume: 1 });
                     console.log("Oxygen");
                     oxygen += 10;
+                    collectedOxygen++;
                 }
                 /*for (let i in this.levelArray)
                     if (this.checkCollision(this._player, this.levelArray[i])) {

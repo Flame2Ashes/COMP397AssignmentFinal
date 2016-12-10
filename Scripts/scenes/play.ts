@@ -1,12 +1,12 @@
 /*
-	File Name:             Scene Menu - TS|JS File 
+	File Name:             Scene Play 1 - TS|JS File 
 	Author:                Angelina Gutierrez
-    Last Modified By:      Angelina Gutierrez
-	Last Modified Date:    Thursday, December 08th, 2016
+    Last Modified By:      Elaine Mae Villarino
+	Last Modified Date:    Saturday, December 10th, 2016
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's Menu scene.
-    Revision History:      Add music and sound effects
+    Revision History:      Add Stat factors: Coin and Oxygen
 */
 
 module scenes {
@@ -199,6 +199,7 @@ module scenes {
 
                     console.log("Coin");
                     score += 100;
+                    collectedCoin++;
                 }
                 if (this._num == 100) {
                     // Add and Play Oxygen Sound Effect
@@ -207,6 +208,7 @@ module scenes {
                     
                     console.log("Oxygen");
                     oxygen += 10;
+                    collectedOxygen++;
                 }
                 /*for (let i in this.levelArray)
                     if (this.checkCollision(this._player, this.levelArray[i])) {
@@ -285,8 +287,6 @@ module scenes {
 
 
         }
-
-
 
         // PRIVATE METHODS
         // -- Function for when PLAY/START button is pressed
