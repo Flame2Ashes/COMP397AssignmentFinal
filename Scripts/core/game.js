@@ -208,15 +208,19 @@ function toggleFullScreen() {
         }
     }
     else {
-        document.getElementById("canvas").style.width = null;
-        document.getElementById("canvas").style.marginLeft = null;
         if (document.cancelFullScreen) {
+            document.getElementById("canvas").style.width = "";
+            document.getElementById("canvas").style.marginLeft = "";
             document.cancelFullScreen();
         }
         else if (document.mozCancelFullScreen) {
+            document.getElementById("canvas").style.width = "";
+            document.getElementById("canvas").style.marginLeft = "";
             document.mozCancelFullScreen();
         }
         else if (document.webkitCancelFullScreen) {
+            document.getElementById("canvas").style.width = "";
+            document.getElementById("canvas").style.marginLeft = "";
             document.webkitCancelFullScreen();
         }
     }
@@ -225,9 +229,6 @@ function toggleFullScreen() {
 function checkFullScreen() {
     if ((window.fullScreen) || (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
         console.log("Yes");
-        //document.getElementById("canvas").removeAttribute("style")
-        document.getElementById("canvas").style.width = "500px";
-        document.getElementById("canvas").style.marginLeft = "0%";
     }
     else {
         console.log("No");
