@@ -223,6 +223,8 @@ function toggleFullScreen() {
 function checkFullScreen() {
     if ((window.fullScreen) || (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
         console.log("Yes");
+        document.getElementById("canvas").style.width = "500px";
+        document.getElementById("canvas").style.marginLeft = "0%";
     }
     else {
         console.log("No");
