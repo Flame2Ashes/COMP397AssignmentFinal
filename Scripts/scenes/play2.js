@@ -1,12 +1,12 @@
 /*
     File Name:             Scene Play 2 - TS|JS File
     Author:                Angelina Gutierrez
-    Last Modified By:      Elaine Mae Villarino
-    Last Modified Date:    Saturday, December 10th, 2016
+    Last Modified By:      Angelina Gutierrez
+    Last Modified Date:    Sunday, December 11th, 2016
     Website Name:          COMP397 - Final Project
     Program Description:   JS file that contains the components that
                            are required to render the game's second level.
-    Revision History:      Added Decoy Spiders
+    Revision History:      Removed tiles at starting position; added points for every decoy spider destroyed
 */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -69,10 +69,15 @@ var scenes;
                     var y = j * 45;
                     tile.setPosition(new objects.Vector2(x, y));
                     this.levelArray[i][j] = tile;
-                    console.log("tile at index " + i + ", " + j + " is " + this.levelArray[i][j]);
+                    //            console.log("tile at index " + i + ", " + j + " is " + this.levelArray[i][j]);
                     this._scrollableObjContainer.addChild(this.levelArray[i][j]);
                 }
             }
+            //Remove these tiles at player start
+            this._scrollableObjContainer.removeChild(this.levelArray[3][0]);
+            this.levelArray[3][0] = null;
+            this._scrollableObjContainer.removeChild(this.levelArray[3][1]);
+            this.levelArray[3][1] = null;
             // Instantiate Spiders
             // -- Spiders array
             this._spiderCount = 10;
@@ -121,9 +126,6 @@ var scenes;
                     this._player.moveRight();
                     this._digOffset = new objects.Vector2(20, 0);
                 }
-                else {
-                    console.log("nopen it's " + this.levelArray[arrayIndexX][arrayIndexY]);
-                }
             }
             if (controls.UP) {
                 var arrayIndexX = Math.floor((this._player.x / 45));
@@ -145,9 +147,9 @@ var scenes;
                 this._player.dig();
                 var x = Math.floor((this._player.x + this._digOffset.x) / 45);
                 var y = Math.floor((this._player.y + this._digOffset.y) / 45);
-                console.log("tile at index is " + [x][y]);
+                //            console.log("tile at index is " + [x][y]);
                 var tile = this.levelArray[x][y];
-                console.log("PLS REMOVE");
+                //            console.log("PLS REMOVE");
                 this._scrollableObjContainer.removeChild(this.levelArray[x][y]);
                 this.levelArray[x][y] = null;
                 if (this._num == 1) {
@@ -166,26 +168,6 @@ var scenes;
                     oxygen += 10;
                     collectedOxygen++;
                 }
-                /*for (let i in this.levelArray)
-                    if (this.checkCollision(this._player, this.levelArray[i])) {
-                        this._scrollableObjContainer.removeChild(this.levelArray[i]);
-                        this._num = Math.floor(Math.random() * 100) + 1;
-                        if (this._num == 1) {
-                            console.log("Coin");
-                            this._coin = new objects.Coin("coin");
-                            this._coin.setPosition(this.levelArray[i].getPosition());
-                            this._scrollableObjContainer.addChild(this._coin);
-                        }
-                        if (this._num == 100) {
-                            this._air = new objects.Air("oxygen");
-                            this._air.setPosition(this.levelArray[i].getPosition());
-                            this._scrollableObjContainer.addChild(this._air);
-                        }
-                        else {
-                            console.log("Nothing");
-                        }
-                        
-                    }*/
                 if (this.checkCollision(this._player, this._spider)) {
                     // Add and Play Spider Sound Effect
                     var fxSpider = createjs.Sound.play("FX_SPIDER");
@@ -203,10 +185,10 @@ var scenes;
                         // Add and Play Spider Sound Effect
                         var fxSpider = createjs.Sound.play("FX_SPIDER");
                         fxSpider.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
-                        console.log("HIT");
                         this._spiderArr[spider].getHit();
                         if (this._spiderArr[spider]._healthCount <= 0) {
                             this._scrollableObjContainer.removeChild(this._spiderArr[spider]);
+                            score += 50;
                         }
                     }
                 }
@@ -239,9 +221,6 @@ var scenes;
                 oxygen = 50;
                 scene = config.Scene.PLAY3;
                 changeScene();
-            }
-            else if (this.checkCollision(this._player, this._treasure) && !this._hasKey) {
-                console.log("Meh");
             }
             //
             if (oxygen <= 0) {
