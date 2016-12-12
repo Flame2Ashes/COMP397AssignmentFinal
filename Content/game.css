@@ -44,6 +44,11 @@ canvas {
     margin-left: 10%;
 }
 
+canvas:fullscreen, canvas:-webkit-full-screen, canvas:-ms-fullscreen, canvas:-moz-full-screen  {
+    width: 950px;
+    margin-left:-25%;
+}
+
 /*=================================================
 			2. Footer - NOT USED CURRENTLY
 ==================================================*/
