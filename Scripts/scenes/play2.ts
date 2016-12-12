@@ -255,7 +255,6 @@ module scenes {
                         this._spiderArr[spider].getHit();
                         if (this._spiderArr[spider]._healthCount <= 0) {
                             this._scrollableObjContainer.removeChild(this._spiderArr[spider]);
-                            score += 50;
                         }
                     }
                 }
