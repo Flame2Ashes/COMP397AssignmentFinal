@@ -226,6 +226,8 @@ function checkFullScreen() {
     }
     else {
         console.log("No");
+        document.getElementById("canvas").style.width = "950px";
+        document.getElementById("canvas").style.marginLeft = "-25%";
         toggleFullScreen();
     }
 }
