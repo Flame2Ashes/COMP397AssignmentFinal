@@ -8,7 +8,7 @@
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's Core game.
-    Revision History:      Remove the JS fullscreen canvas control 
+    Revision History:      Add Secret Modal 
 */
 
 // Global Variables
@@ -284,4 +284,82 @@ else {
     document.getElementById("localStorageCheck").style.color = "#FF0000";
     // So Create Fake localStorage var to not Throw Error
     localStorage = [];
+}
+
+/*!
+ * Konami Code and the Secret Modal
+ */
+// Set up our array of needed keys, and variables.
+neededKeys = [38,38,40,40,37,39,37,39,66,65], started = false, count = 0;
+$(document).keydown(function(e){
+	key = e.keyCode;
+	// Set Started to True only if the first key of the Konami sequence is pressed
+	if(!started){
+		if(key == 38){
+			started = true;
+		}
+	}
+	// If Started is true, 
+	// check and follow the the following key presses to make sure it is the right order.
+	if(started){
+		if(neededKeys[count] == key){
+			// Good so far.
+			count++;
+		} else {
+			// Uh-Oh! Oops, made a mistake! 
+			// Reset the count and allow another chance 
+			reset();
+		}
+		if(count == 10){
+			// DING DING DING! WINNER! We made it! 
+			// Successfully completed the Konami Sequence~
+			// Give the winner their prize!
+			// Get the html id 'modalIn' and insert the html modal.
+			document.getElementById('modalIn').innerHTML = '<div class="modal fade" id="secretModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' + 	'<div class="modal-dialog" role="document">' + '<div class="modal-content">' + 
+							'<div class="modal-header">' +
+								'<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+									'<span aria-hidden="true">&times;</span>' +
+								'</button>' + 
+								'<h4 class="modal-title">COMP397 - Final Project Dig Rat Credits</h4>' + 
+							'</div>' +
+							'<div class="modal-body">' +
+								'<p>The COMP397 - Final Project Dig Rat was developed to showcase a 2D Maze Side Scolling Classic Arcade Game using CreateJS suite. The game has a Menu Screen, Instructions screen, 3 Game-Level Screens, and two Game-Over screens. A scoring system is also be included; plus the use of the Browser LocalStorage to save High Scores locally. Upon starting the game, the browser is fullscreened; this is done through the HTML5 FullScreen API. </p>' +
+								'<h5>Game Overview:</h5>' +
+                                '<p>Tired of the city-life, Remy our adventure seeking rat decided to go out and strike rich with treasure hunting! Wielding his trusty titanium shovel, Remy commences his digging through the mounds of dirt. He knows there’s treasure to be found, buried deep deep deep underground. Being the cunning rat, he knows that the treasure needs a golden key to open it. But oh no! The treasure is guarded by the venomous red-eyed spiders! Surely, one of these icky spiders have the key! Thank goodness he brought a titanium shovel to kill them. Before Remy’s air runs out or the spider bites him three times, find the key and get to the treasure!</p>' +
+                                '<h5>Credited Developers:</h5>' +
+								'<ul class="list-group">' +
+									'<li class="list-group-item">Angelina Gutierrez <span class="tag tag-default tag-pill pull-xs-right">300742235</span></li>' +
+									'<li class="list-group-item">Elaine Mae Villarino <span class="tag tag-default tag-pill pull-xs-right">300749230</span></li>' +
+									'<li class="list-group-item">Professor Wallace Balaniuc <span class="tag tag-default tag-pill pull-xs-right">The Judge/Professor</span></li>' +
+								'</ul>' +
+								'<br><p style="text-align:center">Years Active: November 2016-ONGOING</p>' +
+								'<br><p style="text-align:center"><img src="../../Assets/images/AGEV-logo.png" class="img-fluid" alt="AGEV Logo" title="AGEV Logo" style="width:7em; margin-left: auto; margin-right: auto;"><img src="../../Assets/images/thankyouCat.gif" class="img-fluid" alt="Animated Image of Cat Saying Thank You by Pusheen Corp" title="Animated Image of Cat Saying Thank You by Pusheen Corp" style="width:7em; margin-left: auto; margin-right: auto;"></p>'
+							'</div>' +
+							'<div class="modal-footer">' +
+								'<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>' + 
+							'</div>' +
+						'</div><!-- /.modal-content -->' +
+					'</div><!-- /.modal-dialog -->'
+				'</div><!-- /.modal -->';
+			// Open the Modal
+			$("#secretModal").modal()
+			// Once the Modal is closed..
+			//		Get the html id 'modalIn' and remove the html modal
+			$('#secretModal').on('hidden.bs.modal', function (e) {
+				// Reset! So we can do it all again~
+				document.getElementById('modalIn').innerHTML = '';
+				reset();				
+			})
+		}
+	} else {
+	// Uh-Oh! Wrong start key! 
+	// Reset the count and allow another chance 
+		reset();
+	}
+});
+// Call on the function to Reset us back to the start.
+function reset() {
+	started = false; 
+	count = 0;
+	return;
 }
