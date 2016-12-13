@@ -76,11 +76,7 @@ module scenes {
             this._dirtblock.regX = this._dirtblock.width * 0.5;
             this._dirtblock.regY = this._dirtblock.height * 0.5;
 
-              //Remove these tiles at player start
-            this._scrollableObjContainer.removeChild(this.levelArray[3][0]);
-            this.levelArray[3][0] = null;
-            this._scrollableObjContainer.removeChild(this.levelArray[3][1]);
-            this.levelArray[3][1] = null;
+           
 
             this._player.setPosition(new objects.Vector2(100, 200));
 
@@ -122,6 +118,12 @@ module scenes {
                     this._scrollableObjContainer.addChild(this.levelArray[i][j]);
                 }
             }
+
+               //Remove these tiles at player start
+            this._scrollableObjContainer.removeChild(this.levelArray[3][0]);
+            this.levelArray[3][0] = null;
+            this._scrollableObjContainer.removeChild(this.levelArray[3][1]);
+            this.levelArray[3][1] = null;
 
             // Instantiate Spiders
             // -- Spiders array
