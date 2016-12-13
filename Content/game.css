@@ -42,9 +42,6 @@ canvas {
     text-align: center;
     background-color: white;
     margin-left: 10%;
-}
-
-canvas:fullscreen, canvas:-webkit-full-screen, canvas:-ms-fullscreen, canvas:-moz-full-screen  {
     width: 950px;
     margin-left:-25%;
 }
