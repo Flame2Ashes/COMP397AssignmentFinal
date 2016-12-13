@@ -6,7 +6,7 @@
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's third level.
-    Revision History:      Add Cheat Code; Going to other levels
+    Revision History:      Add collect reset
 */
 
 module scenes {
@@ -357,6 +357,8 @@ module scenes {
                     console.log("Switch to Level 1");
                     oxygen = 100;
                     score = 0;
+                    collectedCoin = 0;
+                    collectedOxygen = 0;
                     scene = config.Scene.PLAY;
                     changeScene();
                     break;
@@ -364,6 +366,8 @@ module scenes {
                     console.log("Switch to Level 1");
                     oxygen = 100;
                     score = 0;
+                    collectedCoin = 0;
+                    collectedOxygen = 0;
                     scene = config.Scene.PLAY;
                     changeScene();
                     break;
@@ -371,6 +375,8 @@ module scenes {
                     console.log("Switch to Level 2");
                     oxygen = 50;
                     score = 0;
+                    collectedCoin = 0;
+                    collectedOxygen = 0;
                     scene = config.Scene.PLAY2;
                     changeScene();
                     break;
@@ -378,6 +384,8 @@ module scenes {
                     console.log("Switch to Level 2");
                     oxygen = 50;
                     score = 0;
+                    collectedCoin = 0;
+                    collectedOxygen = 0;
                     scene = config.Scene.PLAY2;
                     changeScene();
                     break;
@@ -385,6 +393,8 @@ module scenes {
                     console.log("Switch to Level 3");
                     oxygen = 50;
                     score = 0;
+                    collectedCoin = 0;
+                    collectedOxygen = 0;
                     scene = config.Scene.PLAY3;
                     changeScene();
                     break;
@@ -392,6 +402,8 @@ module scenes {
                     console.log("Switch to Level 3");
                     oxygen = 50;
                     score = 0;
+                    collectedCoin = 0;
+                    collectedOxygen = 0;
                     scene = config.Scene.PLAY3;
                     changeScene();
             }
