@@ -3,11 +3,11 @@
     File Name:             Core Game - TS|JS File
     Author:                Angelina Gutierrez
     Last Modified By:      Elaine Mae Villarino
-    Last Modified Date:    Saturday, December 10th, 2016
+    Last Modified Date:    Monday, December 12th, 2016
     Website Name:          COMP397 - Final Project
     Program Description:   JS file that contains the components that
                            are required to render the game's Core game.
-    Revision History:      Add Play3 Scene
+    Revision History:      Remove the JS fullscreen canvas control
 */
 // Global Variables
 var assets;

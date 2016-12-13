@@ -42,6 +42,8 @@ canvas {
     text-align: center;
     background-color: white;
     margin-left: 10%;
+    width: 950px;
+    margin-left:-25%;
 }
 
 /*=================================================
