@@ -6,7 +6,7 @@
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's third level.
-    Revision History:      Add Pause Control
+    Revision History:      Add Cheat Code; Going to other levels
 */
 
 module scenes {
@@ -352,6 +352,48 @@ module scenes {
                 case keys.SPACE:
                     console.log("Space key pressed");
                     controls.DIG = true;
+                    break;
+                case keys.K1:
+                    console.log("Switch to Level 1");
+                    oxygen = 100;
+                    score = 0;
+                    scene = config.Scene.PLAY;
+                    changeScene();
+                    break;
+                case keys.N1:
+                    console.log("Switch to Level 1");
+                    oxygen = 100;
+                    score = 0;
+                    scene = config.Scene.PLAY;
+                    changeScene();
+                    break;
+                case keys.K2:
+                    console.log("Switch to Level 2");
+                    oxygen = 50;
+                    score = 0;
+                    scene = config.Scene.PLAY2;
+                    changeScene();
+                    break;
+                case keys.N2:
+                    console.log("Switch to Level 2");
+                    oxygen = 50;
+                    score = 0;
+                    scene = config.Scene.PLAY2;
+                    changeScene();
+                    break;
+                case keys.K3:
+                    console.log("Switch to Level 3");
+                    oxygen = 50;
+                    score = 0;
+                    scene = config.Scene.PLAY3;
+                    changeScene();
+                    break;
+                case keys.N3:
+                    console.log("Switch to Level 3");
+                    oxygen = 50;
+                    score = 0;
+                    scene = config.Scene.PLAY3;
+                    changeScene();
             }
         }
 
