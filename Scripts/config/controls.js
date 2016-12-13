@@ -5,5 +5,6 @@ var controls;
     controls.RIGHT = false;
     controls.LEFT = false;
     controls.DIG = false;
+    controls.PAUSE = false;
 })(controls || (controls = {}));
 //# sourceMappingURL=controls.js.map

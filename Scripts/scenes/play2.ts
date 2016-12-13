@@ -1,12 +1,12 @@
 /*
 	File Name:             Scene Play 2 - TS|JS File 
 	Author:                Angelina Gutierrez
-    Last Modified By:      Angelina Gutierrez
-	Last Modified Date:    Sunday, December 11th, 2016
+    Last Modified By:      Elaine Mae Villarino
+	Last Modified Date:    Monday, December 12th, 2016
 	Website Name:          COMP397 - Final Project
 	Program Description:   JS file that contains the components that 
                            are required to render the game's second level.
-    Revision History:      Removed tiles at starting position; added points for every decoy spider destroyed
+    Revision History:      Add Pause Control
 */
 
 module scenes {
@@ -15,6 +15,7 @@ module scenes {
         // PRIVATE VARIABLES
 
         private _bg: createjs.Bitmap;
+        private _pauseBG: createjs.Bitmap;
 
         private _ground: createjs.Bitmap;
         private _player: objects.Player;
@@ -65,8 +66,11 @@ module scenes {
             //bgAll.play({ interrupt: createjs.Sound.INTERRUPT_ANY, loop: -1, volume: 0.25 });
 
             // Create BG for scene and add to Game Scene container
+            // -- Game BG
             this._bg = new createjs.Bitmap(assets.getResult("Game_BG"));
             this.addChild(this._bg);
+            // -- Pause BG
+            this._pauseBG = new createjs.Bitmap(assets.getResult("Paused_BG"));
             //    this._ground = new createjs.Bitmap(assets.getResult("floor"));
 
             this._scrollableObjContainer = new createjs.Container();
@@ -114,12 +118,12 @@ module scenes {
                     var y = j * 45;
                     tile.setPosition(new objects.Vector2(x, y));
                     this.levelArray[i][j] = tile;
-      //            console.log("tile at index " + i + ", " + j + " is " + this.levelArray[i][j]);
+                    //            console.log("tile at index " + i + ", " + j + " is " + this.levelArray[i][j]);
                     this._scrollableObjContainer.addChild(this.levelArray[i][j]);
                 }
             }
 
-              //Remove these tiles at player start
+            //Remove these tiles at player start
             this._scrollableObjContainer.removeChild(this.levelArray[3][0]);
             this.levelArray[3][0] = null;
             this._scrollableObjContainer.removeChild(this.levelArray[3][1]);
@@ -160,157 +164,162 @@ module scenes {
 
         // Run on every tick
         public update(): void {
+            if (!controls.PAUSE) {
+                this.removeChild(this._pauseBG);
+                oxygen -= 0.01;
+                this._lifeLabel.text = "Life: " + Math.floor(oxygen);
+                this._scoreLabel.text = "Score: " + score;
 
-            oxygen -= 0.01;
-            this._lifeLabel.text = "Life: " + Math.floor(oxygen);
-            this._scoreLabel.text = "Score: " + score;
 
+                // Controls
 
-            // Controls
-
-            if (controls.LEFT) {
-                var arrayIndexX = Math.floor((this._player.x - (this._player.width / 2)) / 45);
-                var arrayIndexY = Math.floor(this._player.y / 45);
-                if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
-                    this._player.moveLeft();
-                    this._digOffset = new objects.Vector2(-20, 0);
+                if (controls.LEFT) {
+                    var arrayIndexX = Math.floor((this._player.x - (this._player.width / 2)) / 45);
+                    var arrayIndexY = Math.floor(this._player.y / 45);
+                    if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
+                        this._player.moveLeft();
+                        this._digOffset = new objects.Vector2(-20, 0);
+                    }
                 }
-            }
-            if (controls.RIGHT) {
-                var arrayIndexX = Math.floor((this._player.x + (this._player.width / 2)) / 45);
-                var arrayIndexY = Math.floor(this._player.y / 45);
-                if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
-                    console.log("it's null");
-                    this._player.moveRight();
-                    this._digOffset = new objects.Vector2(20, 0);
-
-                }
-            }
-
-            if (controls.UP) {
-                var arrayIndexX = Math.floor((this._player.x / 45));
-                var arrayIndexY = Math.floor((this._player.y - (this._player.height / 2)) / 45);
-                if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
-                    this._player.moveUp();
-                    this._digOffset = new objects.Vector2(0, -20);
-                }
-            }
-            if (controls.DOWN) {
-                var arrayIndexX = Math.floor((this._player.x / 45));
-                var arrayIndexY = Math.floor((this._player.y + (this._player.height / 2)) / 45);
-                if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
-                    this._player.moveDown();
-                    this._digOffset = new objects.Vector2(0, 20);
-                }
-            }
-
-            if (controls.DIG) {
-                this._player.dig();
-                var x = Math.floor((this._player.x + this._digOffset.x) / 45);
-                var y = Math.floor((this._player.y + this._digOffset.y) / 45);
-    //            console.log("tile at index is " + [x][y]);
-                var tile = this.levelArray[x][y];
-    //            console.log("PLS REMOVE");
-                this._scrollableObjContainer.removeChild(this.levelArray[x][y]);
-                this.levelArray[x][y] = null;
-                if (this._num == 1) {
-                    // Add and Play Coin Sound Effect
-                    var fxCoin = createjs.Sound.play("FX_COIN");
-                    fxCoin.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
-
-                    console.log("Coin");
-                    score += 100;
-                    collectedCoin++;
-                }
-                if (this._num == 100) {
-                    // Add and Play Oxygen Sound Effect
-                    var fxOxygen = createjs.Sound.play("FX_OXYGEN");
-                    fxOxygen.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 2, volume: 1 });
-
-                    console.log("Oxygen");
-                    oxygen += 10;
-                    collectedOxygen++;
-                }
-        
-                if (this.checkCollision(this._player, this._spider)) {
-                    // Add and Play Spider Sound Effect
-                    var fxSpider = createjs.Sound.play("FX_SPIDER");
-                    fxSpider.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
-
-                    this._spider.getHit();
-                    if (this._spider._healthCount <= 0) {
-                        this._key.setPosition(this._spider.getPosition());
-                        this._scrollableObjContainer.removeChild(this._spider);
-                        this._scrollableObjContainer.addChild(this._key);
+                if (controls.RIGHT) {
+                    var arrayIndexX = Math.floor((this._player.x + (this._player.width / 2)) / 45);
+                    var arrayIndexY = Math.floor(this._player.y / 45);
+                    if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
+                        console.log("it's null");
+                        this._player.moveRight();
+                        this._digOffset = new objects.Vector2(20, 0);
 
                     }
                 }
-                // DECOY SPIDERS
-                for (var spider: number = 0; spider < this._spiderCount; spider++) {
-                    if (this.checkCollision(this._player, this._spiderArr[spider])) {
+
+                if (controls.UP) {
+                    var arrayIndexX = Math.floor((this._player.x / 45));
+                    var arrayIndexY = Math.floor((this._player.y - (this._player.height / 2)) / 45);
+                    if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
+                        this._player.moveUp();
+                        this._digOffset = new objects.Vector2(0, -20);
+                    }
+                }
+                if (controls.DOWN) {
+                    var arrayIndexX = Math.floor((this._player.x / 45));
+                    var arrayIndexY = Math.floor((this._player.y + (this._player.height / 2)) / 45);
+                    if (this.levelArray[arrayIndexX][arrayIndexY] == null) {
+                        this._player.moveDown();
+                        this._digOffset = new objects.Vector2(0, 20);
+                    }
+                }
+
+                if (controls.DIG) {
+                    this._player.dig();
+                    var x = Math.floor((this._player.x + this._digOffset.x) / 45);
+                    var y = Math.floor((this._player.y + this._digOffset.y) / 45);
+                    //            console.log("tile at index is " + [x][y]);
+                    var tile = this.levelArray[x][y];
+                    //            console.log("PLS REMOVE");
+                    this._scrollableObjContainer.removeChild(this.levelArray[x][y]);
+                    this.levelArray[x][y] = null;
+                    if (this._num == 1) {
+                        // Add and Play Coin Sound Effect
+                        var fxCoin = createjs.Sound.play("FX_COIN");
+                        fxCoin.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
+
+                        console.log("Coin");
+                        score += 100;
+                        collectedCoin++;
+                    }
+                    if (this._num == 100) {
+                        // Add and Play Oxygen Sound Effect
+                        var fxOxygen = createjs.Sound.play("FX_OXYGEN");
+                        fxOxygen.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 2, volume: 1 });
+
+                        console.log("Oxygen");
+                        oxygen += 10;
+                        collectedOxygen++;
+                    }
+
+                    if (this.checkCollision(this._player, this._spider)) {
                         // Add and Play Spider Sound Effect
                         var fxSpider = createjs.Sound.play("FX_SPIDER");
                         fxSpider.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
 
-                        this._spiderArr[spider].getHit();
-                        if (this._spiderArr[spider]._healthCount <= 0) {
-                            this._scrollableObjContainer.removeChild(this._spiderArr[spider]);
+                        this._spider.getHit();
+                        if (this._spider._healthCount <= 0) {
+                            this._key.setPosition(this._spider.getPosition());
+                            this._scrollableObjContainer.removeChild(this._spider);
+                            this._scrollableObjContainer.addChild(this._key);
+
+                        }
+                    }
+                    // DECOY SPIDERS
+                    for (var spider: number = 0; spider < this._spiderCount; spider++) {
+                        if (this.checkCollision(this._player, this._spiderArr[spider])) {
+                            // Add and Play Spider Sound Effect
+                            var fxSpider = createjs.Sound.play("FX_SPIDER");
+                            fxSpider.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
+
+                            this._spiderArr[spider].getHit();
+                            if (this._spiderArr[spider]._healthCount <= 0) {
+                                this._scrollableObjContainer.removeChild(this._spiderArr[spider]);
+                            }
                         }
                     }
                 }
+
+
+                if (this._air != null && this.checkCollision(this._player, this._air)) {
+                    oxygen += 10;
+                    this._scrollableObjContainer.removeChild(this._air);
+                    this._air = null;
+
+                }
+                if (this._coin != null && this.checkCollision(this._player, this._coin)) {
+                    score += 100;
+                    this._scrollableObjContainer.removeChild(this._coin);
+                    this._coin = null;
+
+                }
+
+
+                if (this._key != null && this.checkCollision(this._player, this._key)) {
+                    // Add and Play Key Sound Effect
+                    var fxKeys = createjs.Sound.play("FX_KEYS");
+                    fxKeys.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
+
+                    score = score + 500;
+                    console.log(score);
+                    this._hasKey = true;
+                    this._scrollableObjContainer.removeChild(this._key);
+                    this._key = null;
+                    this._keyLabel.text = "Key: Found!"
+                    //Go to next level
+                }
+                if (this.checkCollision(this._player, this._treasure) && this._hasKey) {
+                    // Add and Play Chest Sound Effect
+                    var fxChest = createjs.Sound.play("FX_CHEST");
+                    fxChest.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
+
+                    oxygen = 50;
+                    scene = config.Scene.PLAY3;
+                    changeScene();
+                }
+
+                //
+                if (oxygen <= 0) {
+                    scene = config.Scene.GAMEOVER;
+                    changeScene();
+                }
+
+                this._player.update();
+
+                if (this.checkScroll()) {
+                    this._scrollBGForward(this._player.position.x);
+                }
+
+
             }
-
-
-            if (this._air != null && this.checkCollision(this._player, this._air)) {
-                oxygen += 10;
-                this._scrollableObjContainer.removeChild(this._air);
-                this._air = null;
-
+            else {
+                this.addChild(this._pauseBG);
             }
-            if (this._coin != null && this.checkCollision(this._player, this._coin)) {
-                score += 100;
-                this._scrollableObjContainer.removeChild(this._coin);
-                this._coin = null;
-
-            }
-
-
-            if (this._key != null && this.checkCollision(this._player, this._key)) {
-                // Add and Play Key Sound Effect
-                var fxKeys = createjs.Sound.play("FX_KEYS");
-                fxKeys.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 0, volume: 1 });
-
-                score = score + 500;
-                console.log(score);
-                this._hasKey = true;
-                this._scrollableObjContainer.removeChild(this._key);
-                this._key = null;
-                this._keyLabel.text = "Key: Found!"
-                //Go to next level
-            }
-            if (this.checkCollision(this._player, this._treasure) && this._hasKey) {
-                // Add and Play Chest Sound Effect
-                var fxChest = createjs.Sound.play("FX_CHEST");
-                fxChest.play({ interrupt: createjs.Sound.INTERRUPT_NONE, loop: 1, volume: 1 });
-
-                oxygen = 50;
-                scene = config.Scene.PLAY3;
-                changeScene();
-            }
-
-            //
-            if (oxygen <= 0) {
-                scene = config.Scene.GAMEOVER;
-                changeScene();
-            }
-
-            this._player.update();
-
-            if (this.checkScroll()) {
-                this._scrollBGForward(this._player.position.x);
-            }
-
-
         }
 
 
@@ -334,6 +343,15 @@ module scenes {
                 case keys.D:
                     console.log("D key pressed");
                     controls.RIGHT = true;
+                    break;
+                case keys.P:
+                    console.log("P key pressed");
+                    if (controls.PAUSE == true) {
+                        controls.PAUSE = false;
+                    }
+                    else {
+                        controls.PAUSE = true;
+                    }
                     break;
                 case keys.SPACE:
                     console.log("Space key pressed");

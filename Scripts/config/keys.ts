@@ -3,6 +3,7 @@ module keys {
     export var A: number = 65;
     export var S: number = 83;
     export var D: number = 68;
+    export var P: number = 80;
     export var SPACE: number = 32;
     export var SHIFT: number = 16;
 }
